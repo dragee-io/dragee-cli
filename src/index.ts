@@ -1,7 +1,7 @@
 import {Command} from 'commander';
 import {handler} from "./command.handler.ts";
 
-const program = new Command();
+export const program = new Command();
 
 program
     .argument('run', 'detect dragees and build reports')
