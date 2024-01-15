@@ -1,3 +1,5 @@
+import type {Result} from "./fp/result.model.ts";
+
 enum DependencyType {
     CONSTRUCTOR = 'constructor',
     FIELD = 'field',
@@ -27,4 +29,4 @@ type Asserter = {
     namespace: Namespace,
     fileName: string,
     handler: AssertHandler
-};
+}; 
