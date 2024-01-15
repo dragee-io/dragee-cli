@@ -41,7 +41,11 @@ describe('DDD Asserter', () => {
                 }
 
                 const report = asserter([serviceDragee, aggregateDragee])
+                console.log(report)
                 expect(report.pass).toBeFalse()
+                expect(report.errors).toContain(
+                    'The aggregate "AnAggregate" must not have any dependency of type "ddd/service"'
+                )
             })
         })
     })

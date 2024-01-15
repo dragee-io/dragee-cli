@@ -17,7 +17,8 @@ interface Dragee {
 type Namespace = string;
 
 type Report = {
-    pass: boolean
+    pass: boolean,
+    errors: string[],
 };
 
 type AssertHandler = (dragees: Dragee[]) => Report;
