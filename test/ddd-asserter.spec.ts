@@ -30,6 +30,7 @@ describe('DDD Asserter', () => {
                 }
 
                 const report = asserter([valueObjectDragee, entityDragee, aggregateDragee])
+
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
@@ -46,10 +47,50 @@ describe('DDD Asserter', () => {
                 }
 
                 const report = asserter([serviceDragee, aggregateDragee])
-                console.log(report)
+
                 expect(report.pass).toBeFalse()
                 expect(report.errors).toContain(
                     'The aggregate "AnAggregate" must not have any dependency of type "ddd/service"'
+                )
+            })
+        })
+    })
+    describe('Repository Rules', () => {
+        describe('A repository must be called only inside a Service', () => {
+            test('Rule passed', () => {
+                const repositoryDragee: Dragee = {
+                    name: 'ARepository',
+                    kind_of: 'ddd/repository',
+                }
+                const serviceDragee: Dragee = {
+                    name: 'AService',
+                    kind_of: 'ddd/service',
+                    depends_on: {
+                        'ARepository': ['field'],
+                    }
+                }
+
+                const report = asserter([repositoryDragee, serviceDragee])
+                expect(report.pass).toBeTrue()
+            })
+            test('Rule failed', () => {
+                const repositoryDragee: Dragee = {
+                    name: 'ARepository',
+                    kind_of: 'ddd/repository',
+                }
+                const valueObjectDragee: Dragee = {
+                    name: 'AValueObject',
+                    kind_of: 'ddd/value_object',
+                    depends_on: {
+                        'ARepository': ['field']
+                    }
+                }
+
+                const report = asserter([repositoryDragee, valueObjectDragee])
+
+                expect(report.pass).toBeFalse()
+                expect(report.errors).toContain(
+                    'The repository "ARepository" must not be a dependency of "ddd/value_object"'
                 )
             })
         })
