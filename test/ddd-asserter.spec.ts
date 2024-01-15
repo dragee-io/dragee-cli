@@ -10,21 +10,26 @@ describe('DDD Asserter', () => {
     });
 
     describe('Aggregate Rules', () => {
-        describe('An aggregate must contain only value objects', () => {
+        describe('An aggregate must contain only value objects and/or entities', () => {
             test('Rule passed', () => {
                 const valueObjectDragee: Dragee = {
                     name: 'AValueObject',
                     kind_of: 'ddd/value_object',
                 }
+                const entityDragee: Dragee = {
+                    name: 'AEntity',
+                    kind_of: 'ddd/entity',
+                }
                 const aggregateDragee: Dragee = {
                     name: 'AnAggregate',
                     kind_of: 'ddd/aggregate',
                     depends_on: {
-                        'AValueObject': ['field']
+                        'AEntity': ['field'],
+                        'AValueObject': ['field'],
                     }
                 }
 
-                const report = asserter([valueObjectDragee, aggregateDragee])
+                const report = asserter([valueObjectDragee, entityDragee, aggregateDragee])
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
