@@ -12,7 +12,7 @@ const readJson = async <T>(fileName): Promise<Result<T>> => {
 }
 
 const readDragees = async (fromDir: string, glob: Glob) => {
-    let scan = glob.scan({
+    const scan = glob.scan({
         cwd: fromDir,
         absolute: true,
         onlyFiles: true

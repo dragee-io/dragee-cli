@@ -1,6 +1,6 @@
 {
   "name": "io.dragee.rules.relation.DrageeOne",
-  "kind_of": "testing/test_object",
+  "kind_of": "ddd/aggregate",
   "depends_on": {
     "io.dragee.rules.relation.DrageeTwo": [
       "field",

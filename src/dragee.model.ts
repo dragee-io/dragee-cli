@@ -17,4 +17,10 @@ type Namespace = string;
 
 type Report = string;
 
-type Asserter = (dragees: Dragee[]) => Report;
+type AssertHandler = (dragees: Dragee[]) => Report;
+
+type Asserter = {
+    namespace: Namespace,
+    fileName: string,
+    handler: AssertHandler
+};

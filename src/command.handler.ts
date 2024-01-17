@@ -13,5 +13,8 @@ export const handler = async (argument, options: Options) => {
     const namespaces = await lookupForNamespaces(dragees);
     const asserters: Asserter[] = await lookupForAsserters(namespaces);
 
-    asserters.forEach(asserter => processAsserters(asserters, dragees));
+    for (const {namespace, handler} of asserters) {
+        console.log(`Running asserter for namespace ${namespace}`)
+        handler.apply(dragees);
+    }
 }
