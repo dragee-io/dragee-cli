@@ -3,7 +3,7 @@ import { AggregateMandatoryDependencyRule } from "./rules/aggregates-mandatory-d
 import {RepositoryRule} from "./rules/repositories.rule.ts";
 import {ValueObjectRule} from "./rules/value-object.rule.ts"
 
-const asserter: Asserter = (dragees: Dragee[]) => {
+const asserter: AsserterHandler = (dragees: Dragee[]) => {
     const aggregateAllowedDependencyRuleResults = AggregateAllowedDependencyRule.apply(dragees)
     const aggregateMandatoryDependencyRuleResults = AggregateMandatoryDependencyRule.apply(dragees)
     const repositoryRuleResults = RepositoryRule.apply(dragees)
