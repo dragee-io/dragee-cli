@@ -25,6 +25,7 @@ const asserter: Asserter = (dragees: Dragee[]) => {
         })
     return {
         pass: errors.length === 0,
+        namespace: 'ddd',
         errors: errors,
     }
 }

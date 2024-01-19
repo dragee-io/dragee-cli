@@ -20,6 +20,7 @@ type Namespace = string;
 
 type Report = {
     pass: boolean,
+    namespace: Namespace,
     errors: string[],
 };
 

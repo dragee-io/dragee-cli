@@ -16,6 +16,7 @@ describe('DDD Asserter', () => {
     test('assert with no dragees', () => {
         const report: Report = asserter([])
         expect(report.pass).toBeTrue()
+        expect(report.namespace).toBe('ddd');
     });
 
     describe('Aggregate Rules', () => {
