@@ -1,7 +1,7 @@
 import {describe, expect, test} from "bun:test";
 import {DddAsserter} from "../src/ddd/ddd-asserter.ts";
 
-const asserter = DddAsserter
+const asserter = DddAsserter.handler
 
 const dragee: Dragee = (name: string, kind_of: string) => ({name, kind_of})
 
