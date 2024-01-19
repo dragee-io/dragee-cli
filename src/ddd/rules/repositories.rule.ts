@@ -1,25 +1,26 @@
 import {ko, ok} from "../../fp/result.model.ts";
-import { isRepository, isService } from "../ddd-rules.utils.ts";
+import {isRepository, isService} from "../ddd-rules.utils.ts";
 
 const rule: RuleResult = (dragees: Dragee[]) => {
     const repositoryNames = dragees
         .filter(dragee => isRepository(dragee))
         .map(repository => repository.name)
-        
+
     const drageesWithRepositoryDependencies = dragees
         .map(dragee => {
-            
-            const repositories: string[]= 
-                dragee.depends_on 
-                    ? Object.keys(dragee.depends_on).filter(name => repositoryNames.includes(name))
-                    : [];
-            
+            if (!dragee.depends_on) {
+                return []
+            }
+
+            const repositories: string[] =
+                Object.keys(dragee.depends_on).filter(name => repositoryNames.includes(name))
+
             return repositories.map(repository => {
                 return {dragee: dragee, repositoryName: repository}
             })
-    })
-    .flatMap(drageeWithRepo => drageeWithRepo)
-    .filter(drageeWithRepo => drageeWithRepo.repositoryName)
+        })
+        .flatMap(drageeWithRepo => drageeWithRepo)
+        .filter(drageeWithRepo => drageeWithRepo.repositoryName)
 
     return drageesWithRepositoryDependencies
         .map(drageeWithRepositories => {
