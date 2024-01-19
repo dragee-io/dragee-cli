@@ -1,3 +1,5 @@
+import type { DDDKind } from "./ddd.model";
+
 export const dependenciesOf: Dragee[] = (dragee: Dragee, allDragees: Dragee[]) => {
     if (!dragee.depends_on) {
         return [];
@@ -8,7 +10,7 @@ export const dependenciesOf: Dragee[] = (dragee: Dragee, allDragees: Dragee[]) =
         .filter(dragee => dragee !== undefined)
 }
 
-const kindOf: boolean = (dragee: Dragee, kind: string) => dragee.kind_of === kind
+const kindOf: boolean = (dragee: Dragee, kind: DDDKind) => dragee.kind_of === kind
 
 export const isAggregate: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/aggregate')
 export const isEntity: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/entity')
