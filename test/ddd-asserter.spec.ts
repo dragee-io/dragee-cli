@@ -2,6 +2,15 @@ import {describe, expect, test} from "bun:test";
 import {DddAsserter} from "../src/ddd/ddd-asserter.ts";
 
 const asserter = DddAsserter
+
+const dragee: Dragee = (name: string, kind_of: string) => ({name, kind_of})
+
+const valueObject: Dragee = (name: string) => dragee(name, 'ddd/value_object')
+const entity: Dragee = (name: string) => dragee(name, 'ddd/entity')
+const event: Dragee = (name: string) => dragee(name, 'ddd/event')
+const service: Dragee = (name: string) => dragee(name, 'ddd/service')
+const repository: Dragee = (name: string) => dragee(name, 'ddd/repository')
+
 describe('DDD Asserter', () => {
 
     test('assert with no dragees', () => {
@@ -12,18 +21,10 @@ describe('DDD Asserter', () => {
     describe('Aggregate Rules', () => {
         describe('An aggregate must contain only value objects, entities, or events', () => {
             test('Rule passed', () => {
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                }
-                const entityDragee: Dragee = {
-                    name: 'AEntity',
-                    kind_of: 'ddd/entity',
-                }
-                const eventDragee: Dragee = {
-                    name: 'AnEvent',
-                    kind_of: 'ddd/event',
-                }
+                const valueObjectDragee: Dragee = valueObject('AValueObject')
+                const entityDragee: Dragee = entity('AEntity')
+                const eventDragee: Dragee = event('AnEvent')
+
                 const aggregateDragee: Dragee = {
                     name: 'AnAggregate',
                     kind_of: 'ddd/aggregate',
@@ -34,15 +35,12 @@ describe('DDD Asserter', () => {
                     }
                 }
 
-                const report = asserter([eventDragee,valueObjectDragee, entityDragee, aggregateDragee])
+                const report = asserter([eventDragee, valueObjectDragee, entityDragee, aggregateDragee])
 
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
-                const serviceDragee: Dragee = {
-                    name: 'AService',
-                    kind_of: 'ddd/service',
-                }
+                const serviceDragee: Dragee = service('AService')
                 const aggregateDragee: Dragee = {
                     name: 'AnAggregate',
                     kind_of: 'ddd/aggregate',
@@ -61,14 +59,8 @@ describe('DDD Asserter', () => {
         })
         describe('An aggregate must at least contains one entity', () => {
             test('Rule passed', () => {
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                }
-                const entityDragee: Dragee = {
-                    name: 'AEntity',
-                    kind_of: 'ddd/entity',
-                }
+                const valueObjectDragee: Dragee = valueObject('AValueObject')
+                const entityDragee: Dragee = entity('AEntity')
                 const aggregateDragee: Dragee = {
                     name: 'AnAggregate',
                     kind_of: 'ddd/aggregate',
@@ -77,17 +69,14 @@ describe('DDD Asserter', () => {
                         'AValueObject': ['field'],
                     }
                 }
- 
+
                 const report = asserter([valueObjectDragee, entityDragee, aggregateDragee]);
 
                 expect(report.pass).toBeTrue();
             })
 
             test('Rule failed', () => {
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                }
+                const valueObjectDragee: Dragee = valueObject('AValueObject')
                 const aggregateDragee: Dragee = {
                     name: 'AnAggregate',
                     kind_of: 'ddd/aggregate',
@@ -106,10 +95,7 @@ describe('DDD Asserter', () => {
     describe('Repository Rules', () => {
         describe('A repository must be called only inside a Service', () => {
             test('Rule passed', () => {
-                const repositoryDragee: Dragee = {
-                    name: 'ARepository',
-                    kind_of: 'ddd/repository',
-                }
+                const repositoryDragee: Dragee = repository('ARepository')
                 const serviceDragee: Dragee = {
                     name: 'AService',
                     kind_of: 'ddd/service',
@@ -122,10 +108,7 @@ describe('DDD Asserter', () => {
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
-                const repositoryDragee: Dragee = {
-                    name: 'ARepository',
-                    kind_of: 'ddd/repository',
-                }
+                const repositoryDragee: Dragee = repository('ARepository')
                 const valueObjectDragee: Dragee = {
                     name: 'AValueObject',
                     kind_of: 'ddd/value_object',
@@ -142,14 +125,8 @@ describe('DDD Asserter', () => {
                 )
             })
             test('Rule failed multiple repositories in same dragee', () => {
-                const repositoryDragee1: Dragee = {
-                    name: 'ARepository1',
-                    kind_of: 'ddd/repository',
-                }
-                const repositoryDragee2: Dragee = {
-                    name: 'ARepository2',
-                    kind_of: 'ddd/repository',
-                }
+                const repositoryDragee1: Dragee = repository('ARepository1')
+                const repositoryDragee2: Dragee = repository('ARepository2')
                 const valueObjectDragee: Dragee = {
                     name: 'AValueObject',
                     kind_of: 'ddd/value_object',
@@ -175,14 +152,8 @@ describe('DDD Asserter', () => {
     describe('Value object rules', () => {
         describe('Should only contains entities', () => {
             test('Test pass', () => {
-                const entityDragee: Dragee = {
-                    name: 'AEntity',
-                    kind_of: 'ddd/entity',
-                }
-                const valueObjectDependencyDragee : Dragee= {
-                    name: 'AValueObject2',
-                    kind_of: 'ddd/value_object'
-                }
+                const entityDragee: Dragee = entity('AEntity')
+                const valueObjectDependencyDragee: Dragee = valueObject('AValueObject2')
                 const valueObjectDragee: Dragee = {
                     name: 'AValueObject',
                     kind_of: 'ddd/value_object',
@@ -196,10 +167,7 @@ describe('DDD Asserter', () => {
                 expect(report.pass).toBeTrue();
             })
             test('Test does not pass', () => {
-                const entityDragee: Dragee = {
-                    name: 'AService',
-                    kind_of: 'ddd/service',
-                }
+                const entityDragee: Dragee = service('AService')
                 const valueObjectDragee: Dragee = {
                     name: 'AValueObject',
                     kind_of: 'ddd/value_object',
