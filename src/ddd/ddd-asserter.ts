@@ -1,13 +1,19 @@
-import {AggregateRule} from "./rules/aggregates.rule.ts";
+import {AggregateAllowedDependencyRule} from "./rules/aggregates-allowed-dependencies.rule.ts";
+import { AggregateMandatoryDependencyRule } from "./rules/aggregates-mandatory-dependencies.rule.ts";
 import {RepositoryRule} from "./rules/repositories.rule.ts";
+import {ValueObjectRule} from "./rules/value-object.rule.ts"
 
 const asserter: Asserter = (dragees: Dragee[]) => {
-    const aggregateRuleResults = AggregateRule.apply(dragees)
+    const aggregateAllowedDependencyRuleResults = AggregateAllowedDependencyRule.apply(dragees)
+    const aggregateMandatoryDependencyRuleResults = AggregateMandatoryDependencyRule.apply(dragees)
     const repositoryRuleResults = RepositoryRule.apply(dragees)
+    const valueObjectRuleResults = ValueObjectRule.apply(dragees);
 
     let flattenResults = [
-        aggregateRuleResults,
-        repositoryRuleResults
+        aggregateAllowedDependencyRuleResults,
+        repositoryRuleResults,
+        valueObjectRuleResults,
+        aggregateMandatoryDependencyRuleResults
     ].flatMap(result => result);
 
     const errors = flattenResults
@@ -17,7 +23,6 @@ const asserter: Asserter = (dragees: Dragee[]) => {
                 return result.error.message
             }
         })
-
     return {
         pass: errors.length === 0,
         errors: errors,
