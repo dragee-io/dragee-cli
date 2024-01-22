@@ -17,6 +17,26 @@ interface TestObject {
     },
 }
 
+function rulePassed(drageeDirectory: string) {
+    test('Rule passed', () => {
+        const data: TestObject = require(drageeDirectory)
+        const report = asserter(data.dragees)
+        expect(report.pass).toBe(data.result.pass)
+    })
+}
+
+function ruleFailed(drageeDirectory: string) {
+    test('Rule failed', () => {
+        const data: TestObject = require(drageeDirectory)
+        const report = asserter(data.dragees)
+
+        expect(report.pass).toBe(data.result.pass)
+        data.result.errors.forEach(error => {
+            expect(report.errors).toContain(error)
+        })
+    })
+}
+
 describe('DDD Asserter', () => {
 
     test('assert with no dragees', () => {
@@ -26,23 +46,11 @@ describe('DDD Asserter', () => {
     });
 
     describe('Aggregate Rules', () => {
-        const DRAGEE_FIXTURE_AGGREGATE = './ddd/aggregates-rules';
+        const AGGREGATE_DRAGEE_TEST_DIRECTORY = './ddd/aggregates-rules';
 
         describe('An aggregate must contain only value objects, entities, or events', () => {
-            test('Rule passed', () => {
-                const data: TestObject = require(DRAGEE_FIXTURE_AGGREGATE + '/rule-passed.json')
-                const report = asserter(data.dragees)
-                expect(report.pass).toBe(data.result.pass)
-            })
-            test('Rule failed', () => {
-                const data: TestObject = require(DRAGEE_FIXTURE_AGGREGATE + '/rule-failed.json')
-                const report = asserter(data.dragees)
-
-                expect(report.pass).toBe(data.result.pass)
-                data.result.errors.forEach(error => {
-                    expect(report.errors).toContain(error)
-                })
-            })
+            rulePassed(AGGREGATE_DRAGEE_TEST_DIRECTORY + '/rule-passed.json');
+            ruleFailed(AGGREGATE_DRAGEE_TEST_DIRECTORY + '/rule-failed.json');
         })
         describe('An aggregate must at least contains one entity', () => {
             test('Rule passed', () => {
@@ -80,38 +88,22 @@ describe('DDD Asserter', () => {
         })
     })
     describe('Repository Rules', () => {
-        const DRAGEE_FIXTURE_REPOSITORY = './ddd/repositories-rules';
+        const REPOSITORY_DRAGEE_TEST_DIRECTORY = './ddd/repositories-rules';
 
         describe('A repository must be called only inside a Service', () => {
-            test('Rule passed', () => {
-                const data = require(DRAGEE_FIXTURE_REPOSITORY + '/rule-passed.json')
-                const report = asserter(data.dragees)
-
-                expect(report.pass).toBe(data.result.pass)
-            })
-            test('Rule failed', () => {
-                const data: TestObject = require(DRAGEE_FIXTURE_REPOSITORY + '/rule-failed.json');
-                const report = asserter(data.dragees)
-
-                expect(report.pass).toBe(data.result.pass)
-                data.result.errors.forEach(error => {
-                    expect(report.errors).toContain(error)
-                })
-            })
+            rulePassed(REPOSITORY_DRAGEE_TEST_DIRECTORY + '/rule-passed.json')
+            ruleFailed(REPOSITORY_DRAGEE_TEST_DIRECTORY + '/rule-failed.json')
         })
     })
 
     describe('Value object rules', () => {
-        const VALUE_OBJECT_DRAGEE_REPOSITORY = './ddd/value-object-rules';
+        const VALUE_OBJECT_DRAGEE_DIRECTORY = './ddd/value-object-rules';
 
         describe('Should only contains entities', () => {
-            test('Test passed', () => {
-                const dragees = require(VALUE_OBJECT_DRAGEE_REPOSITORY + '/rule-passed.json')
-                const report = asserter(dragees)
-                expect(report.pass).toBeTrue();
-            })
+            rulePassed(VALUE_OBJECT_DRAGEE_DIRECTORY + '/rule-passed.json')
+
             test('Test failed', () => {
-                const dragees = require(VALUE_OBJECT_DRAGEE_REPOSITORY + '/rule-failed.json')
+                const dragees = require(VALUE_OBJECT_DRAGEE_DIRECTORY + '/rule-failed.json')
                 const report = asserter(dragees)
 
                 expect(report.pass).toBeFalse();
