@@ -1,0 +1,34 @@
+{
+  "dragees": [
+    {
+      "name": "AnEntity",
+      "kind_of": "ddd/entity"
+    },
+    {
+      "name": "AnEvent",
+      "kind_of": "ddd/event"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object"
+    },
+    {
+      "name": "AnAggregate",
+      "kind_of": "ddd/aggregate",
+      "depends_on": {
+        "AnEntity": [
+          "field"
+        ],
+        "AValueObject": [
+          "field"
+        ],
+        "AnEvent": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": true
+  }
+}

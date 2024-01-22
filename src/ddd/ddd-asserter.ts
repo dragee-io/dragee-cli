@@ -22,9 +22,6 @@ const asserter: AssertHandler = (dragees: Dragee[]) => {
         factoryRuleResults
     ].flatMap(result => result);
 
-    console.log('flattenResults: ');
-    console.log(flattenResults);
-
     const errors = flattenResults
         .filter(result => result.status === 'error')
         .map(result => {

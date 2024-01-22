@@ -2,7 +2,12 @@
   "dragees": [
     {
       "name": "AnAggregate",
-      "kind_of": "ddd/aggregate"
+      "kind_of": "ddd/aggregate",
+      "depends_on":{
+        "AnEntity": [
+          "field"
+        ]
+      }
     },
     {
       "name": "AValueObject",

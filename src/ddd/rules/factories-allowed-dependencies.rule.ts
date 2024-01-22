@@ -11,7 +11,6 @@ const rule: RuleResult = (dragees: Dragee[]) => {
                                 || isEntity(dependencyDragee) 
                                 || isValueObject(dependencyDragee);
                 if (isValid) {
-                    console.log('isValid');
                     return ok<boolean>(true)
                 } else {
                     return ko<boolean>(new Error(`The factory "${factory.name}" must not have any dependency of type "${dependencyDragee.kind_of}"`))
