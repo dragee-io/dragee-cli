@@ -1,0 +1,34 @@
+{
+  "dragees": [
+    {
+      "name": "ARepository",
+      "kind_of": "ddd/repository"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object"
+    },
+    {
+      "name": "AnEntity",
+      "kind_of": "ddd/entity"
+    },
+    {
+      "name": "AService",
+      "kind_of": "ddd/service",
+      "depends_on": {
+        "ARepository": [
+          "field"
+        ],
+        "AnEntity":[
+          "field"
+        ],
+        "AValueObject":[
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": true
+  }
+}

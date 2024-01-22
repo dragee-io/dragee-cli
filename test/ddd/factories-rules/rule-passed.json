@@ -1,0 +1,34 @@
+{
+  "dragees": [
+    {
+      "name": "AnAggregate",
+      "kind_of": "ddd/aggregate"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object"
+    },
+    {
+      "name": "AnEntity",
+      "kind_of": "ddd/entity"
+    },
+    {
+      "name": "AFactory",
+      "kind_of": "ddd/factory",
+      "depends_on": {
+        "AnAggregate": [
+          "field"
+        ],
+        "AnEntity":[
+          "field"
+        ],
+        "AValueObject":[
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": true
+  }
+}

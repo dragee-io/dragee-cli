@@ -1,4 +1,5 @@
-[
+{
+  "dragees": [
   {
     "name": "AService",
     "kind_of": "ddd/service"
@@ -12,4 +13,11 @@
       ]
     }
   }
-]
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The value object \"AValueObject\" must not have any dependency of type \"ddd/service\""
+    ]
+  }
+}
