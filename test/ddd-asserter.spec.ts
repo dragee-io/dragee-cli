@@ -1,5 +1,8 @@
 import {describe, expect, test} from "bun:test";
 import {DddAsserter} from "../src/ddd/ddd-asserter.ts";
+import type {Dragee} from "../src/dragee.model.ts";
+import drageesWhichPassedRepositoryRule from "./ddd/repositories-rules/repository-rule-passed.json"
+import drageesWhichFailedRepositoryRule from "./ddd/repositories-rules/repository-rule-failed.json"
 
 const asserter = DddAsserter.handler
 
@@ -96,48 +99,11 @@ describe('DDD Asserter', () => {
     describe('Repository Rules', () => {
         describe('A repository must be called only inside a Service', () => {
             test('Rule passed', () => {
-                const repositoryDragee: Dragee = repository('ARepository')
-                const serviceDragee: Dragee = {
-                    name: 'AService',
-                    kind_of: 'ddd/service',
-                    depends_on: {
-                        'ARepository': ['field'],
-                    }
-                }
-
-                const report = asserter([repositoryDragee, serviceDragee])
+                const report = asserter(drageesWhichPassedRepositoryRule)
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
-                const repositoryDragee: Dragee = repository('ARepository')
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                    depends_on: {
-                        'ARepository': ['field']
-                    }
-                }
-
-                const report = asserter([repositoryDragee, valueObjectDragee])
-
-                expect(report.pass).toBeFalse()
-                expect(report.errors).toContain(
-                    'The repository "ARepository" must not be a dependency of "ddd/value_object"'
-                )
-            })
-            test('Rule failed multiple repositories in same dragee', () => {
-                const repositoryDragee1: Dragee = repository('ARepository1')
-                const repositoryDragee2: Dragee = repository('ARepository2')
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                    depends_on: {
-                        'ARepository1': ['field'],
-                        'ARepository2': ['field']
-                    }
-                }
-
-                const report = asserter([repositoryDragee1, repositoryDragee2, valueObjectDragee])
+                const report = asserter(drageesWhichFailedRepositoryRule)
 
                 expect(report.pass).toBeFalse()
                 expect(report.errors).toContain(

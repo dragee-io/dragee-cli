@@ -1,5 +1,6 @@
 import {ko, ok} from "../../fp/result.model.ts";
-import { dependenciesOf, isAggregate, isEntity } from "../ddd-rules.utils.ts";
+import {dependenciesOf, isAggregate, isEntity} from "../ddd-rules.utils.ts";
+import type {Dragee} from "../../dragee.model.ts";
 
 const rule: RuleResult = (dragees: Dragee[]) => {
     const aggregates = dragees.filter(dragee => isAggregate(dragee))

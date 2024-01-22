@@ -1,5 +1,3 @@
-import type {Result} from "./fp/result.model.ts";
-
 enum DependencyType {
     CONSTRUCTOR = 'constructor',
     FIELD = 'field',
@@ -10,7 +8,7 @@ enum DependencyType {
 interface Dependency extends Record<string, DependencyType> {
 }
 
-interface Dragee {
+export interface Dragee {
     name: string,
     kind_of: string,
     depends_on: Dependency[]

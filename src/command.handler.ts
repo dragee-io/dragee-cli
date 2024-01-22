@@ -13,7 +13,7 @@ export const handler = async (argument, options: Options) => {
     const dragees = await lookupForDragees(options.fromDir);
     const namespaces = await lookupForNamespaces(dragees);
     const asserters: Asserter[] = await lookupForAsserters(namespaces);
-    const reports :Report[]= [];
+    const reports: Report[] = [];
     console.log('Arguments: ');
     console.log(options);
     for (const {namespace, handler} of asserters) {
@@ -22,9 +22,10 @@ export const handler = async (argument, options: Options) => {
     }
 
     const reportErrors = reports.flatMap(report => {
-        return report.errors.map((error: string) => {
-            return {namespace: report.namespace, error: error}
-        });
+        return report.errors.map((error: string) => ({
+            namespace: report.namespace,
+            error: error
+        }));
     });
 
     console.table(reportErrors);
