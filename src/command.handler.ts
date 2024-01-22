@@ -2,6 +2,7 @@ import {lookupForDragees} from "./dragee-lookup.ts";
 import {lookupForNamespaces} from "./namespace-lookup.ts";
 import {lookupForAsserters} from "./namespace-asserter-lookup.ts";
 import {processAsserters} from "./process-asserters.ts";
+import fs from 'fs'
 
 type Options = {
     fromDir: string,
@@ -13,7 +14,8 @@ export const handler = async (argument, options: Options) => {
     const namespaces = await lookupForNamespaces(dragees);
     const asserters: Asserter[] = await lookupForAsserters(namespaces);
     const reports :Report[]= [];
-
+    console.log('Arguments: ');
+    console.log(options);
     for (const {namespace, handler} of asserters) {
         console.log(`Running asserter for namespace ${namespace}`)
         reports.push(handler(dragees));
@@ -26,4 +28,15 @@ export const handler = async (argument, options: Options) => {
     });
 
     console.table(reportErrors);
+
+    toReportFile(reportErrors, options.toDir+'/result.txt')
+}
+
+export const toReportFile = (reportErrors, filePath: string) => {
+    
+    const reportToString = reportErrors.map(reportError => {
+        return 'namespace: ' + reportError.namespace + '\nerror: ' + reportError.error;
+    }).join('\n');
+
+    fs.writeFileSync(filePath, reportToString)
 }
