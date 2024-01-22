@@ -1,0 +1,15 @@
+[
+  {
+    "name": "AService",
+    "kind_of": "ddd/service"
+  },
+  {
+    "name": "AValueObject",
+    "kind_of": "ddd/value_object",
+    "depends_on": {
+      "AService": [
+        "field"
+      ]
+    }
+  }
+]

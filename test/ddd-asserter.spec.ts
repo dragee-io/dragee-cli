@@ -1,8 +1,6 @@
 import {describe, expect, test} from "bun:test";
 import {DddAsserter} from "../src/ddd/ddd-asserter.ts";
 import type {Dragee} from "../src/dragee.model.ts";
-import drageesWhichPassedRepositoryRule from "./ddd/repositories-rules/repository-rule-passed.json"
-import drageesWhichFailedRepositoryRule from "./ddd/repositories-rules/repository-rule-failed.json"
 
 const asserter = DddAsserter.handler
 
@@ -23,37 +21,17 @@ describe('DDD Asserter', () => {
     });
 
     describe('Aggregate Rules', () => {
+        const DRAGEE_FIXTURE_AGGREGATE = './ddd/aggregates-rules';
+
         describe('An aggregate must contain only value objects, entities, or events', () => {
             test('Rule passed', () => {
-                const valueObjectDragee: Dragee = valueObject('AValueObject')
-                const entityDragee: Dragee = entity('AEntity')
-                const eventDragee: Dragee = event('AnEvent')
-
-                const aggregateDragee: Dragee = {
-                    name: 'AnAggregate',
-                    kind_of: 'ddd/aggregate',
-                    depends_on: {
-                        'AEntity': ['field'],
-                        'AValueObject': ['field'],
-                        'AnEvent': ['field']
-                    }
-                }
-
-                const report = asserter([eventDragee, valueObjectDragee, entityDragee, aggregateDragee])
-
+                const dragees = require(DRAGEE_FIXTURE_AGGREGATE + '/rule-passed.json')
+                const report = asserter(dragees)
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
-                const serviceDragee: Dragee = service('AService')
-                const aggregateDragee: Dragee = {
-                    name: 'AnAggregate',
-                    kind_of: 'ddd/aggregate',
-                    depends_on: {
-                        'AService': ['field']
-                    }
-                }
-
-                const report = asserter([serviceDragee, aggregateDragee])
+                const dragees = require(DRAGEE_FIXTURE_AGGREGATE + '/rule-failed.json')
+                const report = asserter(dragees)
 
                 expect(report.pass).toBeFalse()
                 expect(report.errors).toContain(
@@ -97,13 +75,17 @@ describe('DDD Asserter', () => {
         })
     })
     describe('Repository Rules', () => {
+        const DRAGEE_FIXTURE_REPOSITORY = './ddd/repositories-rules';
+
         describe('A repository must be called only inside a Service', () => {
             test('Rule passed', () => {
-                const report = asserter(drageesWhichPassedRepositoryRule)
+                const dragees = require(DRAGEE_FIXTURE_REPOSITORY + '/repository-rule-passed.json')
+                const report = asserter(dragees)
                 expect(report.pass).toBeTrue()
             })
             test('Rule failed', () => {
-                const report = asserter(drageesWhichFailedRepositoryRule)
+                const dragees = require(DRAGEE_FIXTURE_REPOSITORY + '/repository-rule-failed.json');
+                const report = asserter(dragees)
 
                 expect(report.pass).toBeFalse()
                 expect(report.errors).toContain(
@@ -117,32 +99,17 @@ describe('DDD Asserter', () => {
     })
 
     describe('Value object rules', () => {
+        const DRAGEE_FIXTURE_VALUE_OBJECT = './ddd/value-object-rules';
+
         describe('Should only contains entities', () => {
             test('Test pass', () => {
-                const entityDragee: Dragee = entity('AEntity')
-                const valueObjectDependencyDragee: Dragee = valueObject('AValueObject2')
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                    depends_on: {
-                        'AEntity': ['field'],
-                        'AValueObject2': ['field']
-                    }
-                }
-                const report = asserter([valueObjectDependencyDragee, entityDragee, valueObjectDragee])
-
+                const dragees = require(DRAGEE_FIXTURE_VALUE_OBJECT + '/rule-passed.json')
+                const report = asserter(dragees)
                 expect(report.pass).toBeTrue();
             })
             test('Test does not pass', () => {
-                const entityDragee: Dragee = service('AService')
-                const valueObjectDragee: Dragee = {
-                    name: 'AValueObject',
-                    kind_of: 'ddd/value_object',
-                    depends_on: {
-                        'AService': ['field']
-                    }
-                }
-                const report = asserter([entityDragee, valueObjectDragee])
+                const dragees = require(DRAGEE_FIXTURE_VALUE_OBJECT + '/rule-failed.json')
+                const report = asserter(dragees)
 
                 expect(report.pass).toBeFalse();
                 expect(report.errors).toContain('The value object "AValueObject" must not have any dependency of type "ddd/service"')
