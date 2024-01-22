@@ -4,11 +4,6 @@ import type {Dragee} from "../src/dragee.model.ts";
 
 const asserter = DddAsserter.handler
 
-const dragee: Dragee = (name: string, kind_of: string) => ({name, kind_of})
-
-const valueObject: Dragee = (name: string) => dragee(name, 'ddd/value_object')
-const entity: Dragee = (name: string) => dragee(name, 'ddd/entity')
-
 interface TestObject {
     dragees: Dragee[],
     result: {
