@@ -2,10 +2,8 @@ import {afterEach, describe, expect, test} from "bun:test";
 import fs from 'fs'
 import { toReportFile } from "../src/command.handler";
 
-
-
 const expectedResultDirectory = process.cwd()+'/test/approval/expected-result/';
-const testResultFile = process.cwd()+'/test/approval/test-result/result.txt';
+const testResultFile = process.cwd()+'/test/approval/test-result/result.json';
 
 afterEach(() => {
     fs.unlinkSync(testResultFile);
@@ -19,7 +17,7 @@ describe('Should display correct reporting format', () => {
         }]
         toReportFile(reportErrors, testResultFile)
         
-        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-single.txt')
+        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-single.json')
         const createdReport = fs.readFileSync(testResultFile)
 
         expect(expectedReport.equals(createdReport) ).toBeTrue();
@@ -35,7 +33,7 @@ describe('Should display correct reporting format', () => {
         }]
         toReportFile(reportErrors, testResultFile)
         
-        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-multiple.txt')
+        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-multiple.json')
         const createdReport = fs.readFileSync(testResultFile)
 
         expect(expectedReport.equals(createdReport) ).toBeTrue();

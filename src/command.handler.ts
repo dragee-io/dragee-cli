@@ -29,14 +29,9 @@ export const handler = async (argument, options: Options) => {
 
     console.table(reportErrors);
 
-    toReportFile(reportErrors, options.toDir+'/result.txt')
+    toReportFile(reportErrors, options.toDir+'/result.json')
 }
 
 export const toReportFile = (reportErrors, filePath: string) => {
-    
-    const reportToString = reportErrors.map(reportError => {
-        return 'namespace: ' + reportError.namespace + '\nerror: ' + reportError.error;
-    }).join('\n');
-
-    fs.writeFileSync(filePath, reportToString)
+    fs.writeFileSync(filePath, JSON.stringify(reportErrors, null, 4))
 }

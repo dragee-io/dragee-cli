@@ -1,2 +1,0 @@
-namespace: ddd
-error: The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee
