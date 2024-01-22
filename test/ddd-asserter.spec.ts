@@ -111,4 +111,89 @@ describe('DDD Asserter', () => {
             })
         })
     })
+
+    describe('Service rules', () => {
+        test('Rule passed', () => {
+            const valueObjectDragee = valueObject('AValueObject');
+            const entityDragee = entity('AnEntity');
+            const repositoryDragee = repository('ARepository');
+
+            const serviceDragee = {
+                name: 'AService',
+                kind_of: 'ddd/service',
+                depends_on: {
+                    'AValueObject': ['field'],
+                    'AnEntity': ['field'],
+                    'ARepository': ['field']
+                }
+            }
+
+            const report = asserter([serviceDragee, valueObjectDragee, entityDragee, repositoryDragee]);
+
+            expect(report.pass).toBeTrue();
+        })
+        test('Rule failed', () => {
+            const valueObjectDragee = valueObject('AValueObject');
+            const eventDragee = event('AnEvent');
+            const repositoryDragee = repository('ARepository');
+
+            const serviceDragee = {
+                name: 'AService',
+                kind_of: 'ddd/service',
+                depends_on: {
+                    'AValueObject': ['field'],
+                    'AnEvent': ['field'],
+                    'ARepository': ['field']
+                }
+            }
+
+            const report = asserter([serviceDragee, valueObjectDragee, eventDragee, repositoryDragee]);
+
+            expect(report.pass).toBeFalse();
+        })
+    })
+
+    describe('Factory rules', () => {
+        test('Rule passed', () => {
+            const valueObjectDragee = valueObject('AValueObject');
+            const entityDragee = entity('AnEntity');
+            const aggregateDragee = aggregate('AnAggregate');
+            aggregateDragee.depends_on = {
+                'AnEntity': ['field']
+            }
+
+            const factoryDragee = {
+                name: 'AFactory',
+                kind_of: 'ddd/factory',
+                depends_on: {
+                    'AValueObject': ['field'],
+                    'AnEntity': ['field'],
+                    'AnAggregate': ['field']
+                }
+            }
+
+            const report = asserter([factoryDragee, valueObjectDragee, entityDragee, aggregateDragee]);
+
+            expect(report.pass).toBeTrue();
+        })
+        test('Rule failed', () => {
+            const valueObjectDragee = valueObject('AValueObject');
+            const eventDragee = event('AnEvent');
+            const repositoryDragee = repository('ARepository');
+
+            const serviceDragee = {
+                name: 'AService',
+                kind_of: 'ddd/factory',
+                depends_on: {
+                    'AValueObject': ['field'],
+                    'AnEvent': ['field'],
+                    'ARepository': ['field']
+                }
+            }
+
+            const report = asserter([serviceDragee, valueObjectDragee, eventDragee, repositoryDragee]);
+
+            expect(report.pass).toBeFalse();
+        })
+    })
 })
