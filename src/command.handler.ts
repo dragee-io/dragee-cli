@@ -1,8 +1,6 @@
 import {lookupForDragees} from "./dragee-lookup.ts";
 import {lookupForNamespaces} from "./namespace-lookup.ts";
 import {lookupForAsserters} from "./namespace-asserter-lookup.ts";
-import {processAsserters} from "./process-asserters.ts";
-import fs from 'fs'
 
 type Options = {
     fromDir: string,
@@ -33,5 +31,5 @@ export const handler = async (argument, options: Options) => {
 }
 
 export const toReportFile = (reportErrors, filePath: string) => {
-    fs.writeFileSync(filePath, JSON.stringify(reportErrors, null, 4))
+    Bun.write(filePath, JSON.stringify(reportErrors, null, 4))
 }

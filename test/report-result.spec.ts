@@ -1,28 +1,29 @@
 import {afterEach, describe, expect, test} from "bun:test";
-import fs from 'fs'
+
 import { toReportFile } from "../src/command.handler";
 
-const expectedResultDirectory = process.cwd()+'/test/approval/expected-result/';
-const testResultFile = process.cwd()+'/test/approval/test-result/result.json';
+const expectedResultDirectory = './test/approval/expected-result/';
+const testResultFile = './test/approval/test-result/result.json';
 
 afterEach(() => {
-    fs.unlinkSync(testResultFile);
+    // Currently, there is no existing function in Bun to delete a file.
+    Bun.write(testResultFile, '');
 })
 
 describe('Should display correct reporting format', () => {
-    test('Format with one report', () => {
+    test('Format with one report', async () => {
         const reportErrors = [{
             namespace: 'ddd', 
             error: 'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee'
         }]
         toReportFile(reportErrors, testResultFile)
         
-        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-single.json')
-        const createdReport = fs.readFileSync(testResultFile)
+        const expectedReport = await Promise.resolve(Bun.file(expectedResultDirectory+'expected-single.json').text());
+        const createdReport = await Promise.resolve(Bun.file(testResultFile).text());
 
-        expect(expectedReport.equals(createdReport) ).toBeTrue();
+        expect(expectedReport).toEqual(createdReport);  
     })
-    test('Format with two reports', () => {
+    test('Format with two reports', async () => {
         const reportErrors = [{
             namespace: 'ddd', 
             error: 'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee'
@@ -31,12 +32,13 @@ describe('Should display correct reporting format', () => {
             namespace: 'ddd',
             error: 'The aggregate "io.dragee.annotation.ddd.sample.AnAggregate" must at least contain a "ddd/entity" type dragee'
         }]
-        toReportFile(reportErrors, testResultFile)
+        toReportFile(reportErrors, testResultFile);
         
-        const expectedReport = fs.readFileSync(expectedResultDirectory+'expected-multiple.json')
-        const createdReport = fs.readFileSync(testResultFile)
+        const expectedReport = await Promise.resolve(Bun.file(expectedResultDirectory+'expected-multiple.json').text());
+        const createdReport = await Promise.resolve(Bun.file(testResultFile).text());
 
-        expect(expectedReport.equals(createdReport) ).toBeTrue();
+        expect(expectedReport).toEqual(createdReport);
+        
     })
 })
 
