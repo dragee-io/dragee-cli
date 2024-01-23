@@ -1,14 +1,21 @@
 import type {DDDKind} from "./ddd.model";
 import type {Dragee} from "../dragee.model.ts";
 
-export const dependenciesOf: Dragee[] = (dragee: Dragee, allDragees: Dragee[]) => {
+export interface DrageeDependency {
+    root: Dragee,
+    dependencies: Dragee[]
+}
+
+export const directDependencies: DrageeDependency = (dragee: Dragee, allDragees: Dragee[]) => {
     if (!dragee.depends_on) {
-        return [];
+        return {root: dragee, dependencies: []};
     }
 
-    return Object.keys(dragee.depends_on)
+    const dependencies = Object.keys(dragee.depends_on)
         .map(dependency => allDragees.find(dragee => dragee.name === dependency))
-        .filter(dragee => dragee !== undefined)
+        .filter(dragee => dragee !== undefined);
+
+    return {root: dragee, dependencies: dependencies}
 }
 
 const kindOf: boolean = (dragee: Dragee, kind: DDDKind) => dragee.kind_of === kind
@@ -21,5 +28,9 @@ export const isService: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/servic
 export const isValueObject: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/value_object')
 export const isFactory: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/factory')
 
+export const aggregates = (dragees: Dragee[]) => dragees.filter(dragee => isAggregate(dragee))
+export const entities = (dragees: Dragee[]) => dragees.filter(dragee => isEntity(dragee))
+export const factories = (dragees: Dragee[]) => dragees.filter(dragee => isFactory(dragee))
+export const services = (dragees: Dragee[]) => dragees.filter(dragee => isService(dragee))
 export const valueObjects = (dragees: Dragee[]) => dragees.filter(dragee => isValueObject(dragee))
 

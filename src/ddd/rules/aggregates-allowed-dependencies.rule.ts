@@ -1,22 +1,29 @@
 import {ko, ok} from "../../fp/result.model.ts";
-import { dependenciesOf, isAggregate, isValueObject, isEntity, isEvent } from "../ddd-rules.utils.ts";
+import {
+    aggregates,
+    directDependencies,
+    type DrageeDependency,
+    isEntity,
+    isEvent,
+    isValueObject
+} from "../ddd-rules.utils.ts";
+import type {Dragee} from "../../dragee.model.ts";
+
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+    return dependencies.map(dependency => {
+        if (isValueObject(dependency) || isEntity(dependency) || isEvent(dependency)) {
+            return ok<boolean>(true)
+        } else {
+            return ko<boolean>(new Error(`The aggregate "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
+        }
+    })
+}
 
 const rule: RuleResult = (dragees: Dragee[]) => {
-    const aggregates = dragees.filter(dragee => isAggregate(dragee))
-
-    return aggregates.map(aggregate => {
-        return dependenciesOf(aggregate, dragees)
-            .map(dependencyDragee => {
-                const isValid =    isValueObject(dependencyDragee) 
-                                || isEntity(dependencyDragee) 
-                                || isEvent(dependencyDragee);
-                if (isValid) {
-                    return ok<boolean>(true)
-                } else {
-                    return ko<boolean>(new Error(`The aggregate "${aggregate.name}" must not have any dependency of type "${dependencyDragee.kind_of}"`))
-                }
-            })
-    })
+    return aggregates(dragees)
+        .map(aggregate => directDependencies(aggregate, dragees))
+        .filter(dep => dep.dependencies)
+        .map(dep => assertDrageeDependency(dep))
         .flatMap(result => result)
 }
 
