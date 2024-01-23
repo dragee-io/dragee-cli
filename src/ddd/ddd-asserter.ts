@@ -1,3 +1,4 @@
+import type { AssertHandler, Dragee } from "../dragee.model.ts";
 import {AggregateAllowedDependencyRule} from "./rules/aggregates-allowed-dependencies.rule.ts";
 import { AggregateMandatoryDependencyRule } from "./rules/aggregates-mandatory-dependencies.rule.ts";
 import { FactoryAllowedDependencyRule } from "./rules/factories-allowed-dependencies.rule.ts";
@@ -6,33 +7,26 @@ import { ServiceAllowedDependencyRule } from "./rules/services-allowed-dependenc
 import {ValueObjectRule} from "./rules/value-object.rule.ts"
 
 const asserter: AssertHandler = (dragees: Dragee[]) => {
-    const aggregateAllowedDependencyRuleResults = AggregateAllowedDependencyRule.apply(dragees)
-    const aggregateMandatoryDependencyRuleResults = AggregateMandatoryDependencyRule.apply(dragees)
-    const repositoryRuleResults = RepositoryRule.apply(dragees)
-    const valueObjectRuleResults = ValueObjectRule.apply(dragees);
-    const serviceRuleResults = ServiceAllowedDependencyRule.apply(dragees);
-    const factoryRuleResults = FactoryAllowedDependencyRule.apply(dragees);
+    
+    const rules = 
+    [
+        AggregateAllowedDependencyRule,
+        AggregateMandatoryDependencyRule,
+        RepositoryRule,
+        ValueObjectRule, 
+        ServiceAllowedDependencyRule, 
+        FactoryAllowedDependencyRule
+    ]
 
-    let flattenResults = [
-        aggregateAllowedDependencyRuleResults,
-        repositoryRuleResults,
-        valueObjectRuleResults,
-        aggregateMandatoryDependencyRuleResults,
-        serviceRuleResults,
-        factoryRuleResults
-    ].flatMap(result => result);
-
-    const errors = flattenResults
+    const rulesResultsErrors = rules
+        .flatMap(rule => rule.apply(dragees))
         .filter(result => result.status === 'error')
-        .map(result => {
-            if (result.status === 'error') {
-                return result.error.message
-            }
-        })
+        .map(result => result.error.message);
+    
     return {
-        pass: errors.length === 0,
+        pass: rulesResultsErrors.length === 0,
         namespace: 'ddd',
-        errors: errors,
+        errors: rulesResultsErrors,
     }
 }
 

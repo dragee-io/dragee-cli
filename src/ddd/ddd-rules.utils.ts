@@ -6,7 +6,7 @@ export interface DrageeDependency {
     dependencies: Dragee[]
 }
 
-export const directDependencies: DrageeDependency = (dragee: Dragee, allDragees: Dragee[]) => {
+export const directDependencies = (dragee: Dragee, allDragees: Dragee[]) => {
     if (!dragee.depends_on) {
         return {root: dragee, dependencies: []};
     }
@@ -18,15 +18,15 @@ export const directDependencies: DrageeDependency = (dragee: Dragee, allDragees:
     return {root: dragee, dependencies: dependencies}
 }
 
-const kindOf: boolean = (dragee: Dragee, kind: DDDKind) => dragee.kind_of === kind
+const kindOf = (dragee: Dragee, kind: DDDKind): boolean => dragee.kind_of === kind
 
-export const isAggregate: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/aggregate')
-export const isEntity: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/entity')
-export const isEvent: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/event')
-export const isRepository: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/repository')
-export const isService: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/service')
-export const isValueObject: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/value_object')
-export const isFactory: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/factory')
+export const isAggregate = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/aggregate')
+export const isEntity = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/entity')
+export const isEvent = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/event')
+export const isRepository = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/repository')
+export const isService = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/service')
+export const isValueObject = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/value_object')
+export const isFactory = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/factory')
 
 export const aggregates = (dragees: Dragee[]) => dragees.filter(dragee => isAggregate(dragee))
 export const entities = (dragees: Dragee[]) => dragees.filter(dragee => isEntity(dragee))

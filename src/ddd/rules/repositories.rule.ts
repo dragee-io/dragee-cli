@@ -1,7 +1,8 @@
-import {ko, ok} from "../../fp/result.model.ts";
+import type { Dragee } from "../../dragee.model.ts";
+import {ko, ok, type Result} from "../../fp/result.model.ts";
 import {isRepository, isService} from "../ddd-rules.utils.ts";
 
-const rule: RuleResult = (dragees: Dragee[]) => {
+const rule = (dragees: Dragee[]): Result<boolean>[] => {
     const repositoryNames = dragees
         .filter(dragee => isRepository(dragee))
         .map(repository => repository.name)

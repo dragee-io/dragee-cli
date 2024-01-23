@@ -1,4 +1,5 @@
-import {ko, ok} from "../../fp/result.model.ts";
+import type { Dragee } from "../../dragee.model.ts";
+import {ko, ok, type Result} from "../../fp/result.model.ts";
 import {
     directDependencies,
     type DrageeDependency,
@@ -7,7 +8,6 @@ import {
     isValueObject,
     services
 } from "../ddd-rules.utils.ts";
-import type {Dragee} from "../../dragee.model.ts";
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
     return dependencies.map(dependency => {
@@ -19,7 +19,7 @@ const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
     })
 }
 
-const rule: RuleResult = (dragees: Dragee[]) => {
+const rule = (dragees: Dragee[]): Result<boolean>[] => {
     return services(dragees)
         .map(service => directDependencies(service, dragees))
         .filter(dep => dep.dependencies)
