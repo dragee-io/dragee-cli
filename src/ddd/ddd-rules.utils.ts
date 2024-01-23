@@ -1,5 +1,5 @@
 import type {DDDKind} from "./ddd.model";
-import type {Dependency, Dragee} from "../dragee.model.ts";
+import type {Dragee} from "../dragee.model.ts";
 
 export interface DrageeDependency {
     root: Dragee,
