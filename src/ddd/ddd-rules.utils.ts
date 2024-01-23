@@ -1,5 +1,5 @@
 import type {DDDKind} from "./ddd.model";
-import type {Dragee} from "../dragee.model.ts";
+import type {Dependency, Dragee} from "../dragee.model.ts";
 
 export interface DrageeDependency {
     root: Dragee,
@@ -13,7 +13,7 @@ export const directDependencies = (dragee: Dragee, allDragees: Dragee[]) => {
 
     const dependencies = Object.keys(dragee.depends_on)
         .map(dependency => allDragees.find(dragee => dragee.name === dependency))
-        .filter(dragee => dragee !== undefined);
+        .filter((dragee): dragee is Dragee => dragee !== undefined);
 
     return {root: dragee, dependencies: dependencies}
 }
