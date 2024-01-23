@@ -7,7 +7,7 @@ import {RepositoryRule} from "./rules/repositories.rule.ts";
 import { ServiceAllowedDependencyRule } from "./rules/services-allowed-dependencies.rule.ts";
 import {ValueObjectRule} from "./rules/value-object.rule.ts"
 
-const asserter: AssertHandler= (dragees: Dragee[]): Report => {
+const asserter = (dragees: Dragee[]): AssertHandler => {
     
     const rules = 
     [
