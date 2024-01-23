@@ -1,4 +1,5 @@
-import type { DDDKind } from "./ddd.model";
+import type {DDDKind} from "./ddd.model";
+import type {Dragee} from "../dragee.model.ts";
 
 export const dependenciesOf: Dragee[] = (dragee: Dragee, allDragees: Dragee[]) => {
     if (!dragee.depends_on) {
@@ -20,5 +21,5 @@ export const isService: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/servic
 export const isValueObject: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/value_object')
 export const isFactory: boolean = (dragee: Dragee) => kindOf(dragee, 'ddd/factory')
 
-
+export const valueObjects = (dragees: Dragee[]) => dragees.filter(dragee => isValueObject(dragee))
 
