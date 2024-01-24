@@ -1,3 +1,5 @@
+import type {Dragee, Namespace} from "./dragee.model.ts";
+
 export const lookupForNamespaces = async (dragees: Dragee[]): Promise<Namespace[]> => {
     console.log('Looking up for namespaces');
 

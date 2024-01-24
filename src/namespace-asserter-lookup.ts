@@ -1,12 +1,12 @@
-import {Maybe, none, some} from "./fp/maybe.model.ts";
+import {type Maybe, none, some} from "./fp/maybe.model.ts";
 import {install} from "./install-namespace-asserter.ts";
 import type {Result} from "./fp/result.model.ts";
 import {Glob} from "bun";
 import {config} from './cli.config.ts'
+import type {Asserter, AssertHandler, Namespace} from "./dragee.model.ts";
 
 const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
-    let glob = new Glob(`${namespace}.asserter.ts`);
-
+    const glob = new Glob(`${namespace}.asserter.ts`);
     const scan = glob.scan({
         cwd: config.localRegistryPath,
         absolute: true,
@@ -25,15 +25,15 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     return some({namespace, fileName, handler});
 }
 
-const installFor = async (namespace: Namespace): Promise<Asserter> => {
+const installFor = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
     const result: Result<Asserter> = await install(namespace);
 
     if (result.status !== 'ok') {
         console.log(`Failed to download asserter for namespace: ${namespace}`);
-        return;
+        return none();
     }
 
-    return result.content;
+    return some(result.content);
 }
 
 export const lookupForAsserters = async (namespaces: Namespace[]): Promise<Asserter[]> => {
@@ -43,8 +43,8 @@ export const lookupForAsserters = async (namespaces: Namespace[]): Promise<Asser
 
     for (let namespace of namespaces) {
         const foundLocally = await findAsserterLocally(namespace);
-        const asserter = await foundLocally.orElse(() => installFor(namespace));
-        asserters.push(asserter);
+        const maybeAsserter = await foundLocally.orElseGet(() => installFor(namespace));
+        maybeAsserter.ifPresent(a => asserters.push(a));
     }
 
     console.log('List of asserters matching dragees');

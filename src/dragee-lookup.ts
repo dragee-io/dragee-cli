@@ -1,7 +1,8 @@
 import {Glob} from "bun";
-import {ko, ok, Result} from "./fp/result.model.ts";
+import {ko, ok, type Result} from "./fp/result.model.ts";
+import type {Dragee} from "./dragee.model.ts";
 
-const readJson = async <T>(fileName): Promise<Result<T>> => {
+const readJson = async <T>(fileName: string): Promise<Result<T>> => {
     try {
         const file = Bun.file(fileName);
         const content = await file.json();

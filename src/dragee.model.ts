@@ -1,25 +1,25 @@
-enum DependencyType {
+export enum DependencyType {
     CONSTRUCTOR = 'constructor',
     FIELD = 'field',
     METHOD_PARAM = 'method_param',
     METHOD_RETURN = 'method_return'
 }
 
-interface Dependency extends Record<string, DependencyType>{}
+export interface Dependency extends Record<string, DependencyType>{}
 
-interface Dragee {
+export type Dragee = {
     name: string,
     kind_of: string,
     depends_on: Dependency[]
 }
 
-type Namespace = string;
+export type Namespace = string;
 
-type Report = string;
+export type Report = string;
 
-type AssertHandler = (dragees: Dragee[]) => Report;
+export type AssertHandler = (dragees: Dragee[]) => Report;
 
-type Asserter = {
+export type Asserter = {
     namespace: Namespace,
     fileName: string,
     handler: AssertHandler
