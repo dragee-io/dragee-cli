@@ -1,0 +1,31 @@
+{
+  "dragees": [
+    {
+      "name": "ARepository1",
+      "kind_of": "ddd/repository"
+    },
+    {
+      "name": "ARepository2",
+      "kind_of": "ddd/repository"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object",
+      "depends_on": {
+        "ARepository1": [
+          "field"
+        ],
+        "ARepository2": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The repository \"ARepository1\" must not be a dependency of \"ddd/value_object\"",
+      "The repository \"ARepository2\" must not be a dependency of \"ddd/value_object\""
+    ]
+  }
+}

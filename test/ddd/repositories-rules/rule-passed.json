@@ -1,0 +1,20 @@
+{
+  "dragees": [
+    {
+      "name": "ARepository",
+      "kind_of": "ddd/repository"
+    },
+    {
+      "name": "AService",
+      "kind_of": "ddd/service",
+      "depends_on": {
+        "ARepository": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": true
+  }
+}

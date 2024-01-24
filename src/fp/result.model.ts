@@ -1,5 +1,5 @@
-type Ok<T> = { status: 'ok', content: T }
-type Ko = { status: 'error', error: Error }
+export type Ok<T> = { status: 'ok', content: T }
+export type Ko = { status: 'error', error: Error }
 
 export type Result<T> = Ok<T> | Ko;
 

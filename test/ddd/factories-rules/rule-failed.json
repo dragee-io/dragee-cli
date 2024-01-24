@@ -1,0 +1,37 @@
+{
+  "dragees": [
+    {
+      "name": "AnEntity",
+      "kind_of": "ddd/entity"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object"
+    },
+    {
+      "name": "ARepository",
+      "kind_of": "ddd/repository"
+    },
+    {
+      "name": "AFactory",
+      "kind_of": "ddd/factory",
+      "depends_on": {
+        "AValueObject": [
+          "field"
+        ],
+        "AnEntity": [
+          "field"
+        ],
+        "ARepository": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The factory \"AFactory\" must not have any dependency of type \"ddd/repository\""
+    ]
+  }
+}

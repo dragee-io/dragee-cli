@@ -1,0 +1,30 @@
+{
+  "dragees": [
+    {
+      "name": "AnEvent",
+      "kind_of": "ddd/event"
+    },
+    {
+      "name": "AValueObject",
+      "kind_of": "ddd/value_object"
+    },
+    {
+      "name": "AService",
+      "kind_of": "ddd/service",
+      "depends_on": {
+        "AValueObject": [
+          "field"
+        ],
+        "AnEvent": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The service \"AService\" must not have any dependency of type \"ddd/event\""
+    ]
+  }
+}

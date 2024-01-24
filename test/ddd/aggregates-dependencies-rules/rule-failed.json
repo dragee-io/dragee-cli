@@ -1,0 +1,23 @@
+{
+  "dragees": [
+    {
+      "name": "AService",
+      "kind_of": "ddd/service"
+    },
+    {
+      "name": "AnAggregate",
+      "kind_of": "ddd/aggregate",
+      "depends_on": {
+        "AService": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The aggregate \"AnAggregate\" must not have any dependency of type \"ddd/service\""
+    ]
+  }
+}

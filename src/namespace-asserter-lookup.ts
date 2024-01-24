@@ -3,6 +3,7 @@ import {install} from "./install-namespace-asserter.ts";
 import type {Result} from "./fp/result.model.ts";
 import {Glob} from "bun";
 import {config} from './cli.config.ts'
+import type { AssertHandler, Asserter, Namespace } from "./dragee.model.ts";
 
 const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
     let glob = new Glob(`${namespace}.asserter.ts`);
@@ -14,14 +15,14 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     });
 
     const result = await scan.next();
-
+    
     if (result.value === undefined) {
         return none();
     }
 
     const fileName = result.value;
     const asserterModule = require(fileName);
-    const handler: AssertHandler = asserterModule.default;
+    const handler: AssertHandler = asserterModule.default.handler;
     return some({namespace, fileName, handler});
 }
 

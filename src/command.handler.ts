@@ -1,20 +1,37 @@
 import {lookupForDragees} from "./dragee-lookup.ts";
 import {lookupForNamespaces} from "./namespace-lookup.ts";
 import {lookupForAsserters} from "./namespace-asserter-lookup.ts";
-import {processAsserters} from "./process-asserters.ts";
+import type { Asserter, Report, RuleError } from "./dragee.model.ts";
 
 type Options = {
     fromDir: string,
     toDir: string
 }
 
-export const handler = async (argument, options: Options) => {
+export const handler = async (argument: string, options: Options) => {
+    
     const dragees = await lookupForDragees(options.fromDir);
     const namespaces = await lookupForNamespaces(dragees);
     const asserters: Asserter[] = await lookupForAsserters(namespaces);
-
+    const reports: Report[] = [];
+    
     for (const {namespace, handler} of asserters) {
         console.log(`Running asserter for namespace ${namespace}`)
-        handler.apply(dragees);
+        reports.push(handler(dragees));
     }
+
+    const reportErrors = reports.flatMap(report => {
+        return report.errors.map((error: string) => ({
+            namespace: report.namespace,
+            error: error
+        }));
+    });
+
+    console.table(reportErrors);
+
+    toReportFile(reportErrors, options.toDir+'/result.json')
+}
+
+export const toReportFile = (reportErrors: RuleError[], filePath: string) => {
+    Bun.write(filePath, JSON.stringify(reportErrors, null, 4));
 }
