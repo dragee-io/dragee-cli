@@ -1,18 +1,17 @@
-import type { Dragee } from "../../dragee.model.ts";
-import {ko, ok, type Result} from "../../fp/result.model.ts";
-import { isAggregate, type DrageeDependency, commands, directDependencies } from "../ddd-rules.utils.ts";
+import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
+import {commands, directDependencies, type DrageeDependency, isAggregate} from "../ddd-rules.utils.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
         if (isAggregate(dependency)) {
-            return ok<boolean>(true)
+            return successful()
         } else {
-            return ko<boolean>(new Error(`The command "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
+            return failed(`The command "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
         }
     })
 }
 
-const rule = (dragees: Dragee[]): Result<boolean>[] => {
+const rule = (dragees: Dragee[]): RuleResult[] => {
     return commands(dragees)
         .map(command => directDependencies(command, dragees))
         .filter(dep => dep.dependencies)

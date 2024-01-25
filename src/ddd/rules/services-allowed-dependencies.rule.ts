@@ -1,26 +1,25 @@
-import type { Dragee } from "../../dragee.model.ts";
-import {ko, ok, type Result} from "../../fp/result.model.ts";
+import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
 import {
     directDependencies,
     type DrageeDependency,
+    isCommand,
     isEntity,
     isRepository,
     isValueObject,
-    services,
-    isCommand
+    services
 } from "../ddd-rules.utils.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
         if (isRepository(dependency) || isEntity(dependency) || isValueObject(dependency) || isCommand(dependency)) {
-            return ok<boolean>(true)
+            return successful()
         } else {
-            return ko<boolean>(new Error(`The service "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
+            return failed(`The service "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
         }
     })
 }
 
-const rule = (dragees: Dragee[]): Result<boolean>[] => {
+const rule = (dragees: Dragee[]): RuleResult[] => {
     return services(dragees)
         .map(service => directDependencies(service, dragees))
         .filter(dep => dep.dependencies)

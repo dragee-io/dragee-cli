@@ -1,4 +1,3 @@
-import {ko, ok, type Result} from "../../fp/result.model.ts";
 import {
     aggregates,
     directDependencies,
@@ -7,19 +6,19 @@ import {
     isEvent,
     isValueObject
 } from "../ddd-rules.utils.ts";
-import type {Dragee} from "../../dragee.model.ts";
+import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
         if (isValueObject(dependency) || isEntity(dependency) || isEvent(dependency)) {
-            return ok<boolean>(true)
+            return successful()
         } else {
-            return ko<boolean>(new Error(`The aggregate "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
+            return failed(`The aggregate "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
         }
     })
 }
 
-const rule = (dragees: Dragee[]): Result<boolean>[] => {
+const rule = (dragees: Dragee[]): RuleResult[] => {
     return aggregates(dragees)
         .map(aggregate => directDependencies(aggregate, dragees))
         .filter(dep => dep.dependencies)

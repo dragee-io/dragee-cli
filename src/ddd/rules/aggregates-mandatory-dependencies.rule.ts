@@ -1,16 +1,15 @@
-import {ko, ok, type Result} from "../../fp/result.model.ts";
 import {aggregates, directDependencies, type DrageeDependency, entities} from "../ddd-rules.utils.ts";
-import type {Dragee} from "../../dragee.model.ts";
+import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult => {
     if (entities(dependencies).length) {
-        return ok<boolean>(true)
+        return successful()
     } else {
-        return ko<boolean>(new Error(`The aggregate "${root.name}" must at least contain a "ddd/entity" type dragee`))
+        return failed(`The aggregate "${root.name}" must at least contain a "ddd/entity" type dragee`)
     }
 }
 
-const rule = (dragees: Dragee[]): Result<boolean>[] => {
+const rule = (dragees: Dragee[]): RuleResult[] => {
     return aggregates(dragees)
         .map(aggregate => directDependencies(aggregate, dragees))
         .filter(dep => dep.dependencies)

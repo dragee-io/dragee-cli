@@ -1,5 +1,4 @@
-import type { Dragee } from "../../dragee.model.ts";
-import {ko, ok, type Result} from "../../fp/result.model.ts";
+import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
 import {
     directDependencies,
     type DrageeDependency,
@@ -9,18 +8,17 @@ import {
     isValueObject
 } from "../ddd-rules.utils.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
-    return dependencies
-        .map(dependency => {
-            if (isAggregate(dependency) || isEntity(dependency) || isValueObject(dependency)) {
-                return ok<boolean>(true)
-            } else {
-                return ko<boolean>(new Error(`The factory "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
-            }
-        })
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
+    return dependencies.map(dependency => {
+        if (isAggregate(dependency) || isEntity(dependency) || isValueObject(dependency)) {
+            return successful()
+        } else {
+            return failed(`The factory "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
+        }
+    })
 }
 
-const rule = (dragees: Dragee[]): Result<boolean>[] => {
+const rule = (dragees: Dragee[]): RuleResult[] => {
     return factories(dragees)
         .map(factory => directDependencies(factory, dragees))
         .filter(dep => dep.dependencies)
