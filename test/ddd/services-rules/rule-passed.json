@@ -13,6 +13,11 @@
       "kind_of": "ddd/entity"
     },
     {
+      "name": "ACommand",
+      "kind_of": "ddd/command"
+
+    },
+    {
       "name": "AService",
       "kind_of": "ddd/service",
       "depends_on": {
@@ -23,6 +28,9 @@
           "field"
         ],
         "AValueObject":[
+          "field"
+        ],
+        "ACommand":[
           "field"
         ]
       }

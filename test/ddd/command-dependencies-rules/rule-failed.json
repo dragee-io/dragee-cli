@@ -1,0 +1,23 @@
+{
+  "dragees": [
+    {
+      "name": "AnEvent",
+      "kind_of": "ddd/event"
+    },
+    {
+      "name": "ACommand",
+      "kind_of": "ddd/command",
+      "depends_on": {
+        "AnEvent": [
+          "field"
+        ]
+      }
+    }
+  ],
+  "result": {
+    "pass": false,
+    "errors": [
+      "The command \"ACommand\" must not have any dependency of type \"ddd/event\""
+    ]
+  }
+}

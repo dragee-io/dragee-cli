@@ -1,0 +1,30 @@
+{
+  
+    "dragees": [
+      {
+        "name": "AnAggregate",
+        "kind_of": "ddd/aggregate",
+        "depends_on": {
+          "AnEntity": [
+            "field"
+          ]
+        }
+      },
+      {
+        "name": "AnEntity",
+        "kind_of": "ddd/entity"
+      },
+      {
+        "name": "ACommand",
+        "kind_of": "ddd/command",
+        "depends_on": {
+          "AnAggregate": [
+            "field"
+          ]
+        }
+      }
+    ],
+  "result": {
+    "pass": true
+  }
+}

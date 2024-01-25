@@ -86,4 +86,12 @@ describe('DDD Asserter', () => {
             ruleFailed(FACTORY_DRAGEE_DIRECTORY + '/rule-failed.json')
         })
     })
+
+    describe('Command rules', () => {
+        const COMMAND_DRAGEE_DIRECTORY = "./ddd/command-dependencies-rules";
+        describe('Should only contains Aggregate', () => {
+            rulePassed(COMMAND_DRAGEE_DIRECTORY + '/rule-passed.json')
+            ruleFailed(COMMAND_DRAGEE_DIRECTORY + '/rule-failed.json')
+        })
+    })
 })

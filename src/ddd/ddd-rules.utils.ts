@@ -27,10 +27,12 @@ export const isRepository = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/rep
 export const isService = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/service')
 export const isValueObject = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/value_object')
 export const isFactory = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/factory')
+export const isCommand = (dragee: Dragee): boolean => kindOf(dragee, 'ddd/command')
 
 export const aggregates = (dragees: Dragee[]) => dragees.filter(dragee => isAggregate(dragee))
 export const entities = (dragees: Dragee[]) => dragees.filter(dragee => isEntity(dragee))
 export const factories = (dragees: Dragee[]) => dragees.filter(dragee => isFactory(dragee))
 export const services = (dragees: Dragee[]) => dragees.filter(dragee => isService(dragee))
 export const valueObjects = (dragees: Dragee[]) => dragees.filter(dragee => isValueObject(dragee))
+export const commands = (dragees: Dragee[]) => dragees.filter(dragee => isCommand(dragee))
 

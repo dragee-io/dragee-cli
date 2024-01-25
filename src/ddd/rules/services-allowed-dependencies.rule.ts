@@ -6,12 +6,13 @@ import {
     isEntity,
     isRepository,
     isValueObject,
-    services
+    services,
+    isCommand
 } from "../ddd-rules.utils.ts";
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
     return dependencies.map(dependency => {
-        if (isRepository(dependency) || isEntity(dependency) || isValueObject(dependency)) {
+        if (isRepository(dependency) || isEntity(dependency) || isValueObject(dependency) || isCommand(dependency)) {
             return ok<boolean>(true)
         } else {
             return ko<boolean>(new Error(`The service "${root.name}" must not have any dependency of type "${dependency.kind_of}"`))
