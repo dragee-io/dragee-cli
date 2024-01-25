@@ -2,24 +2,32 @@ import {type Dragee, failed, type RuleResult, successful} from "../../dragee.mod
 import {
     directDependencies,
     type DrageeDependency,
-    factories,
-    isAggregate,
-    isEntity,
-    isValueObject
+    kindOf,
 } from "../ddd-rules.utils.ts";
+import { kinds, type Kind } from "../ddd.model.ts";
 
-const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
-    return dependencies.map(dependency => {
-        if (isAggregate(dependency) || isEntity(dependency) || isValueObject(dependency)) {
-            return successful()
-        } else {
-            return failed(`The factory "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
-        }
-    })
+const factoryKind : Kind = "ddd/factory";
+const allowedDependencies: Kind[] = ["ddd/aggregate", "ddd/entity", "ddd/value_object"]
+
+const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
+    return dependencies
+        .map(dependency => {
+
+            const isDependencyAllowed = 
+                allowedDependencies
+                    .map(allowedDependency => kindOf(dependency, allowedDependency))
+                    .reduce((a, b) => a || b)
+
+            if (isDependencyAllowed){
+                return successful()
+            } else {
+                return failed(`The factory "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
+            }
+        })
 }
 
 const rule = (dragees: Dragee[]): RuleResult[] => {
-    return factories(dragees)
+    return kinds[factoryKind].findIn(dragees)
         .map(factory => directDependencies(factory, dragees))
         .filter(dep => dep.dependencies)
         .map(dep => assertDrageeDependency(dep))

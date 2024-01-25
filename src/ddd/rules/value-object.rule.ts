@@ -1,9 +1,18 @@
-import {type Dragee, failed, type Rule, type RuleResult, successful} from "../../dragee.model.ts";
-import {directDependencies, type DrageeDependency, isValueObject, valueObjects} from "../ddd-rules.utils.ts";
+import { successful, type Dragee, failed, type RuleResult, type Rule } from "../../dragee.model.ts";
+import {directDependencies, type DrageeDependency, kindOf} from "../ddd-rules.utils.ts";
+import { kinds, type Kind } from "../ddd.model.ts";
+
+const valueObjectKind: Kind = "ddd/value_object";
+const allowedDependencies: Kind[] = ["ddd/value_object"];
 
 const newAssertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
-        if (isValueObject(dependency)) {
+        const isDependencyAllowed = 
+                allowedDependencies
+                    .map(allowedDependency => kindOf(dependency, allowedDependency))
+                    .reduce((a, b) => a || b)
+
+        if (isDependencyAllowed) {
             return successful()
         } else {
             return failed(`The value object "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
@@ -12,7 +21,7 @@ const newAssertDrageeDependency = ({root, dependencies}: DrageeDependency): Rule
 }
 
 const rule = (dragees: Dragee[]): RuleResult[] => {
-    return valueObjects(dragees)
+    return kinds[valueObjectKind].findIn(dragees)
         .map(valueObject => directDependencies(valueObject, dragees))
         .filter(dep => dep.dependencies)
         .map(dep => newAssertDrageeDependency(dep))
