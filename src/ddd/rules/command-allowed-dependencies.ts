@@ -1,18 +1,12 @@
 import { failed, type Dragee, successful, type RuleResult } from "../../dragee.model.ts";
-import {ko, ok, type Result} from "../../fp/result.model.ts";
 import {type DrageeDependency, directDependencies, kindOf } from "../ddd-rules.utils.ts";
 import { kinds, type Kind } from "../ddd.model.ts";
 const commandKind: Kind = "ddd/command"
-const allowedDependencies = ['ddd/aggregate'];
+const isAggregate = (dragee: Dragee) => kindOf(dragee, "ddd/aggregate")
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
-        const isDependencyAllowed = 
-                allowedDependencies
-                    .map(allowedDependency => kindOf(dependency, allowedDependency))
-                    .reduce((a, b) => a || b)
-
-        if (isDependencyAllowed) {
+        if (isAggregate(dependency)) {
             return successful()
         } else {
             return failed(`The command "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)

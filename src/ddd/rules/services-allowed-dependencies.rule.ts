@@ -7,16 +7,15 @@ import {
 import { kinds, type Kind } from "../ddd.model.ts";
 
 const serviceKind: Kind = "ddd/service"
-const allowedDependencies: Kind[] = ["ddd/repository", "ddd/entity", "ddd/value_object", "ddd/command"]
+const isRepository = (dragee: Dragee) => kindOf(dragee, "ddd/repository")
+const isEntity = (dragee: Dragee) => kindOf(dragee, "ddd/entity")
+const isValueObject = (dragee: Dragee) => kindOf(dragee, "ddd/value_object")
+const isCommand = (dragee: Dragee) => kindOf(dragee, "ddd/command")
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
-        const isDependencyAllowed = 
-                allowedDependencies
-                    .map(allowedDependency => kindOf(dependency, allowedDependency))
-                    .reduce((a, b) => a || b)
-
-        if (isDependencyAllowed) {
+       
+        if (isRepository(dependency) || isEntity(dependency) || isValueObject(dependency) || isCommand(dependency)) {
             return successful()
         } else {
             return failed(`The service "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)

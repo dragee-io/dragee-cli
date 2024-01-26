@@ -3,16 +3,12 @@ import {directDependencies, type DrageeDependency, kindOf} from "../ddd-rules.ut
 import { kinds, type Kind } from "../ddd.model.ts";
 
 const valueObjectKind: Kind = "ddd/value_object";
-const allowedDependencies: Kind[] = ["ddd/value_object"];
+const isValueObject = (dragee: Dragee) => kindOf(dragee, "ddd/value_object")
+
 
 const newAssertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
-        const isDependencyAllowed = 
-                allowedDependencies
-                    .map(allowedDependency => kindOf(dependency, allowedDependency))
-                    .reduce((a, b) => a || b)
-
-        if (isDependencyAllowed) {
+        if (isValueObject(dependency)) {
             return successful()
         } else {
             return failed(`The value object "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)

@@ -7,18 +7,15 @@ import {
 import { kinds, type Kind } from "../ddd.model.ts";
 
 const factoryKind : Kind = "ddd/factory";
-const allowedDependencies: Kind[] = ["ddd/aggregate", "ddd/entity", "ddd/value_object"]
+
+const isAggregate = (dragee: Dragee) => kindOf(dragee, "ddd/aggregate")
+const isEntity = (dragee: Dragee) => kindOf(dragee, "ddd/entity")
+const isValueObject = (dragee: Dragee) => kindOf(dragee, "ddd/value_object")
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency) => {
     return dependencies
         .map(dependency => {
-
-            const isDependencyAllowed = 
-                allowedDependencies
-                    .map(allowedDependency => kindOf(dependency, allowedDependency))
-                    .reduce((a, b) => a || b)
-
-            if (isDependencyAllowed){
+            if (isAggregate(dependency) || isEntity(dependency) || isValueObject(dependency)){
                 return successful()
             } else {
                 return failed(`The factory "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)

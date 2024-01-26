@@ -1,10 +1,10 @@
 import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
 import { kindOf } from "../ddd-rules.utils.ts";
-
-
+const isRepository = (dragee: Dragee) => kindOf(dragee, "ddd/repository")
+const isService = (dragee: Dragee) => kindOf(dragee, "ddd/service")
 const rule = (dragees: Dragee[]): RuleResult[] => {
     const repositoryNames = dragees
-        .filter(dragee => kindOf(dragee, "ddd/repository"))
+        .filter(dragee => isRepository(dragee))
         .map(repository => repository.name)
 
     const drageesWithRepositoryDependencies = dragees
@@ -25,7 +25,7 @@ const rule = (dragees: Dragee[]): RuleResult[] => {
 
     return drageesWithRepositoryDependencies
         .map(drageeWithRepositories => {
-            if (kindOf(drageeWithRepositories.dragee, "ddd/service")) {
+            if (isService(drageeWithRepositories.dragee)) {
                 return successful()
             } else {
                 return failed(`The repository "${drageeWithRepositories.repositoryName}" must not be a dependency of "${drageeWithRepositories.dragee.kind_of}"`)

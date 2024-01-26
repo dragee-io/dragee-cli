@@ -25,13 +25,13 @@ export type DDDKindCheck<T extends Kind> = (value: string) => value is T;
 
 export const kinds: DDDKindChecks = {} as DDDKindChecks;
 
-export const createKindCheckers =() =>  {
-  kindsName.map(kind => {
-    kinds[kind] = {
-      is: (value: string) => value === kind,
-      findIn: (dragees: Dragee[]) => dragees.filter(dragee => dragee.kind_of === kind)
-    }
-    return kinds[kind];
-  })
-}
+
+kindsName.map(kind => {
+  kinds[kind] = {
+    is: (value: string) => value === kind,
+    findIn: (dragees: Dragee[]) => dragees.filter(dragee => dragee.kind_of === kind)
+  }
+  return kinds[kind];
+})
+
 

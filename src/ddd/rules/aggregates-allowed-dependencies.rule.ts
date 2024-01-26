@@ -7,16 +7,15 @@ import {type Dragee, failed, type RuleResult, successful} from "../../dragee.mod
 import { kinds, type Kind } from "../ddd.model.ts";
 
 const aggregateKind: Kind = "ddd/aggregate";
-const allowedDependencies: Kind[] = ["ddd/value_object", "ddd/entity", "ddd/event"];
+
+const isValueObject = (dragee: Dragee) => kindOf(dragee, "ddd/value_object")
+const isEntity = (dragee: Dragee) => kindOf(dragee, "ddd/entity")
+const isEvent = (dragee: Dragee) => kindOf(dragee, "ddd/event")
 
 const assertDrageeDependency = ({root, dependencies}: DrageeDependency): RuleResult[] => {
     return dependencies.map(dependency => {
-        const isDependencyAllowed = 
-                allowedDependencies
-                    .map(allowedDependency => kindOf(dependency, allowedDependency))
-                    .reduce((a, b) => a || b)
 
-        if (isDependencyAllowed) {
+        if (isValueObject(dependency) || isEntity(dependency) || isEvent(dependency)) {
             return successful()
         } else {
             return failed(`The aggregate "${root.name}" must not have any dependency of type "${dependency.kind_of}"`)
