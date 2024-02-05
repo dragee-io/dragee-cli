@@ -1,7 +1,7 @@
 import {lookupForDragees} from "./dragee-lookup.ts";
 import {lookupForNamespaces} from "./namespace-lookup.ts";
 import {lookupForAsserters} from "./namespace-asserter-lookup.ts";
-import type { Asserter, Report, RuleError } from "./dragee.model.ts";
+import type { Asserter, Report, RuleError } from "@dragee-io/asserter-type";
 
 type Options = {
     fromDir: string,

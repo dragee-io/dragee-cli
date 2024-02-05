@@ -1,3 +1,4 @@
+import type { Asserter, Namespace } from "@dragee-io/asserter-type";
 import type {Result} from "./fp/result.model.ts";
 import {ok} from "./fp/result.model.ts";
 

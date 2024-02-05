@@ -1,9 +1,11 @@
-import {Maybe, none, some} from "./fp/maybe.model.ts";
+import {type Maybe, none, some} from "./fp/maybe.model.ts";
 import {install} from "./install-namespace-asserter.ts";
 import type {Result} from "./fp/result.model.ts";
 import {Glob} from "bun";
 import {config} from './cli.config.ts'
-import type { AssertHandler, Asserter, Namespace } from "./dragee.model.ts";
+import type { AssertHandler, Asserter, Namespace } from "@dragee-io/asserter-type";
+
+
 
 const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
     let glob = new Glob(`${namespace}.asserter.ts`);

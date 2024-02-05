@@ -1,5 +1,5 @@
-import { successful, type Dragee, failed, type RuleResult, type Rule } from "../../dragee.model.ts";
-import {directDependencies, type DrageeDependency, kindOf} from "../ddd-rules.utils.ts";
+import type { Dragee, Rule, RuleResult } from "@dragee-io/asserter-type";
+import {directDependencies, type DrageeDependency, kindOf, successful, failed} from "../ddd-rules.utils.ts";
 import { kinds, type Kind } from "../ddd.model.ts";
 
 const valueObjectKind: Kind = "ddd/value_object";

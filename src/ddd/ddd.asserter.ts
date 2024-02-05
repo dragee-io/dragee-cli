@@ -1,4 +1,4 @@
-import type {Dragee, FailedRuleResult, Report, Rule} from "../dragee.model.ts";
+import type { Dragee, FailedRuleResult, Report, Rule } from "@dragee-io/asserter-type";
 import {AggregateAllowedDependencyRule} from "./rules/aggregates-allowed-dependencies.rule.ts";
 import {AggregateMandatoryDependencyRule} from "./rules/aggregates-mandatory-dependencies.rule.ts";
 import {CommandAllowedDependencyRule} from "./rules/command-allowed-dependencies.ts";

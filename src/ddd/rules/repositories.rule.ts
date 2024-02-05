@@ -1,5 +1,5 @@
-import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
-import { kindOf } from "../ddd-rules.utils.ts";
+import type { Dragee, RuleResult } from "@dragee-io/asserter-type";
+import { failed, kindOf, successful } from "../ddd-rules.utils.ts";
 const isRepository = (dragee: Dragee) => kindOf(dragee, "ddd/repository")
 const isService = (dragee: Dragee) => kindOf(dragee, "ddd/service")
 const rule = (dragees: Dragee[]): RuleResult[] => {

@@ -1,6 +1,7 @@
 import {describe, expect, test} from "bun:test";
 import {DddAsserter} from "../src/ddd/ddd.asserter.ts";
-import type {Dragee, Report} from "../src/dragee.model.ts";
+import type { Dragee, Report } from "dragee-asserter-model/types/dragee/dragee.model";
+
 
 const asserter = DddAsserter.handler
 

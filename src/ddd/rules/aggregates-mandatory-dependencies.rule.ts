@@ -1,5 +1,7 @@
-import {directDependencies, type DrageeDependency} from "../ddd-rules.utils.ts";
-import {type Dragee, failed, type RuleResult, successful} from "../../dragee.model.ts";
+
+import type { Dragee, RuleResult } from "@dragee-io/asserter-type";
+import {directDependencies, successful, type DrageeDependency, failed} from "../ddd-rules.utils.ts";
+
 import { kinds, type Kind } from "../ddd.model.ts";
 
 

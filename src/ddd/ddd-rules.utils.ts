@@ -1,5 +1,5 @@
+import type { Dragee, Failed, Successful } from "@dragee-io/asserter-type";
 import { kinds, type Kind} from "./ddd.model";
-import type {Dragee} from "../dragee.model.ts";
 
 export interface DrageeDependency {
     root: Dragee,
@@ -19,3 +19,14 @@ export const directDependencies = (dragee: Dragee, allDragees: Dragee[]) => {
 }
 
 export const kindOf = (dragee: Dragee, kind: Kind): boolean => kinds[kind].is(dragee.kind_of);
+
+export const successful: Successful = () => {
+    return {pass: true}
+}
+
+export const failed: Failed = (message: string) => {
+    return {
+        pass:false,
+        message: message
+    }
+}

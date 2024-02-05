@@ -1,4 +1,4 @@
-import type { Dragee } from "../dragee.model";
+import type { Dragee } from "@dragee-io/asserter-type";
 
 const kindsName =
   [

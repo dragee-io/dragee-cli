@@ -1,5 +1,6 @@
-import { failed, type Dragee, successful, type RuleResult } from "../../dragee.model.ts";
-import {type DrageeDependency, directDependencies, kindOf } from "../ddd-rules.utils.ts";
+
+import type { Dragee, RuleResult } from "@dragee-io/asserter-type";
+import {type DrageeDependency, directDependencies, kindOf, successful, failed } from "../ddd-rules.utils.ts";
 import { kinds, type Kind } from "../ddd.model.ts";
 const commandKind: Kind = "ddd/command"
 const isAggregate = (dragee: Dragee) => kindOf(dragee, "ddd/aggregate")
