@@ -11,14 +11,18 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     let glob = new Glob(`${namespace}.asserter.ts`);
 
     const scan = glob.scan({
-        cwd: config.localRegistryPath,
+        cwd: config.localRegistryPath+`${namespace}-asserter/`,
         absolute: true,
         onlyFiles: true
     });
+    let result;
+    try{
+        result = await scan.next();
+    }catch(error){
+        result = undefined;
+    }
 
-    const result = await scan.next();
-    
-    if (result.value === undefined) {
+    if (result?.value === undefined) {
         return none();
     }
 
@@ -30,7 +34,7 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
 
 const installFor = async (namespace: Namespace): Promise<Asserter> => {
     const result: Result<Asserter> = await install(namespace);
-
+    console.log("Result", result)
     if (result.status !== 'ok') {
         console.log(`Failed to download asserter for namespace: ${namespace}`);
         return;

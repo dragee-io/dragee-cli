@@ -15,8 +15,9 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@dragee-io/asserter-type": "^0.0.2",
+    "@dragee-io/ddd-asserter": "^0.0.1",
     "cli-progress": "^3.12.0",
-    "commander": "^11.1.0",
-    "@dragee-io/asserter-type": "^0.0.2"
+    "commander": "^11.1.0"
   }
 }
