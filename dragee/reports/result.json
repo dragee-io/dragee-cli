@@ -1,0 +1,6 @@
+[
+    {
+        "namespace": "ddd",
+        "error": "The aggregate \"io.dragee.annotation.ddd.sample.AnAggregate\" must at least contain a \"ddd/entity\" type dragee"
+    }
+]

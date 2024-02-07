@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@dragee-io/asserter-type": "^0.0.2",
-    "@dragee-io/ddd-asserter": "^0.0.1",
     "cli-progress": "^3.12.0",
     "commander": "^11.1.0"
   }

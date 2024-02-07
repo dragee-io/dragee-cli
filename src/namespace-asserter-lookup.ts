@@ -8,7 +8,7 @@ import type { AssertHandler, Asserter, Namespace } from "@dragee-io/asserter-typ
 
 
 const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
-    let glob = new Glob(`${namespace}.asserter.ts`);
+    let glob = new Glob(`index.ts`);
 
     const scan = glob.scan({
         cwd: config.localRegistryPath+`${namespace}-asserter/`,
