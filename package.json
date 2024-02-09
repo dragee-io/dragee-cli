@@ -9,14 +9,19 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/cli-progress": "^3.11.5"
+    "@types/cli-progress": "^3.11.5",
+    "@types/tar": "^6.1.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@dragee-io/asserter-type": "^0.0.2",
+    "@dragee-io/ddd-asserter": "^0.0.2",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.6.7",
     "cli-progress": "^3.12.0",
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "tar": "^6.2.0"
   }
 }
