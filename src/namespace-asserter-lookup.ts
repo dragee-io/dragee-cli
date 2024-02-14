@@ -15,6 +15,7 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
         absolute: true,
         onlyFiles: true
     });
+    console.log("scan: ", scan)
     let result;
     try{
         result = await scan.next();
@@ -27,6 +28,7 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     }
 
     const fileName = result.value;
+    console.log("file name: ", fileName)
     const asserterModule = require(fileName);
     const handler: AssertHandler = asserterModule.default.handler;
     return some({namespace, fileName, handler});
@@ -50,6 +52,7 @@ export const lookupForAsserters = async (namespaces: Namespace[]): Promise<Asser
 
     for (let namespace of namespaces) {
         const foundLocally = await findAsserterLocally(namespace);
+        console.log('found asserter: ', foundLocally)
         const asserter = await foundLocally.orElse(() => installFor(namespace));
         asserters.push(asserter);
     }
