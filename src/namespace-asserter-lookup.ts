@@ -11,7 +11,7 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     let glob = new Glob(`index.ts`);
 
     const scan = glob.scan({
-        cwd: config.localRegistryPath+`${namespace}-asserter/`,
+        cwd: `${config.localRegistryPath}/${namespace}-asserter/`,
         absolute: true,
         onlyFiles: true
     });

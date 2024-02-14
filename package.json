@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "exec": "bun run ./src/index.ts",
-    "exec-local": "env DRAGEE_ASSERTER_LOCAL_REGISTRY_PATH=./test/approval/fake-asserters bun exec run --from-dir ./test/approval/sample",
+    "exec-local": "env DRAGEE_ASSERTER_LOCAL_REGISTRY_PATH=./test/approval/fake-asserters/ bun exec run --from-dir ./test/approval/sample",
     "build": "bun build ./src/index.ts --target bun --outdir ./dist"
   },
   "devDependencies": {
