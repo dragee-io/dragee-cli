@@ -1,6 +1,7 @@
 import {Glob} from "bun";
-import {ko, ok, type Result} from "./fp/result.model.ts";
-import type {Dragee} from "./dragee.model.ts";
+import type {Result} from "./fp/result.model.ts";
+import {ko, ok} from "./fp/result.model.ts";
+import type { Dragee } from "@dragee-io/asserter-type";
 
 const readJson = async <T>(fileName: string): Promise<Result<T>> => {
     try {
