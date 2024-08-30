@@ -1,44 +1,45 @@
-import {afterEach, describe, expect, test} from "bun:test";
-
-import { toReportFile } from "../src/command.handler";
-
-const expectedResultDirectory = './test/approval/expected-result/';
-const testResultFile = './test/approval/test-result/result.json';
-
-afterEach(() => {
-    // Currently, there is no existing function in Bun to delete a file.
-    Bun.write(testResultFile, '');
-})
+import { describe, expect, test, spyOn } from "bun:test";
+import { buildReports } from "../src/command.handler";
+import { JsonReportBuilder, HtmlReportBuilder, MarkdownReportBuilder } from "@dragee-io/report-generator";
+import type { Report } from "@dragee-io/asserter-type";
 
 describe('Should display correct reporting format', () => {
     test('Format with one report', async () => {
-        const reportErrors = [{
-            namespace: 'ddd', 
-            error: 'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee'
-        }]
-        toReportFile(reportErrors, testResultFile)
+        const testResultFile = 'test/result';        
+        const jsonReportBuilderMock = spyOn(JsonReportBuilder, 'buildReports');
+        const htmlReportBuilderMock = spyOn(HtmlReportBuilder, 'buildReports');
+        const markdownReportBuilderMock = spyOn(MarkdownReportBuilder, 'buildReports');
+    
+        const reports: Report[] = [{
+            errors: [
+                'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee',
+                'The aggregate "io.dragee.rules.relation.DrageeTwo" must at least contain a "ddd/entity" type dragee'
+            ],
+            namespace: "ddd",
+            pass: true,
+            stats: {
+                rulesCount: 7,
+                errorsCount: 2,
+                passCount: 5
+            }
+        },{
+            errors: ["Test error"],
+            namespace: "test",
+            pass: true,
+            stats: {
+                rulesCount: 5,
+                errorsCount: 1,
+                passCount: 4
+            }
+        }];
+        buildReports(reports, testResultFile)
         
-        const expectedReport = await Promise.resolve(Bun.file(expectedResultDirectory+'expected-single.json').text());
-        const createdReport = await Promise.resolve(Bun.file(testResultFile).text());
-
-        expect(expectedReport).toEqual(createdReport);  
-    })
-    test('Format with two reports', async () => {
-        const reportErrors = [{
-            namespace: 'ddd', 
-            error: 'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee'
-        },
-        {
-            namespace: 'ddd',
-            error: 'The aggregate "io.dragee.annotation.ddd.sample.AnAggregate" must at least contain a "ddd/entity" type dragee'
-        }]
-        toReportFile(reportErrors, testResultFile);
-        
-        const expectedReport = await Promise.resolve(Bun.file(expectedResultDirectory+'expected-multiple.json').text());
-        const createdReport = await Promise.resolve(Bun.file(testResultFile).text());
-
-        expect(expectedReport).toEqual(createdReport);
-        
+        expect(jsonReportBuilderMock).toBeCalled();  
+        expect(jsonReportBuilderMock).toBeCalledWith(reports, testResultFile);  
+        expect(htmlReportBuilderMock).toBeCalled();  
+        expect(htmlReportBuilderMock).toBeCalledWith(reports, testResultFile);  
+        expect(markdownReportBuilderMock).toBeCalled();  
+        expect(markdownReportBuilderMock).toBeCalledWith(reports, testResultFile);  
     })
 })
 
