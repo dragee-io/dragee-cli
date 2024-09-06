@@ -25,7 +25,7 @@ const readDragees = async (fromDir: string, glob: Glob) => {
     for await (const fileName of scan) {
         const result: Result<Dragee> = await readJson(fileName);
 
-        if (result.status !== 'ok' || !result.content.kind_of) {
+        if (result.status !== 'ok' || !result.content.profile) {
             continue;
         }
         foundDragees.push(result.content);

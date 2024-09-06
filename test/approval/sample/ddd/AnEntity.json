@@ -1,1 +1,1 @@
-{"name":"io.dragee.annotation.ddd.sample.AnEntity","kind_of":"ddd/entity","depends_on":{}}
+{"name":"io.dragee.annotation.ddd.sample.AnEntity","profile":"ddd/entity","depends_on":{}}

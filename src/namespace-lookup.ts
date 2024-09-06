@@ -4,7 +4,7 @@ export const lookupForNamespaces = async (dragees: Dragee[]): Promise<Namespace[
     console.log('Looking up for namespaces');
 
     const nonUniqueNamespaces = dragees.map(dragee => {
-        const [namespace] = dragee.kind_of.split('/');
+        const [namespace] = dragee.profile.split('/');
         return namespace;
     });
 
