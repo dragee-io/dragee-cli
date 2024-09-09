@@ -2,6 +2,7 @@
   "name": "dragee-cli",
   "module": "src/index.ts",
   "type": "module",
+	"version": "0.0.1",
   "scripts": {
     "exec": "bun run ./src/index.ts",
     "exec-local": "env DRAGEE_ASSERTER_LOCAL_REGISTRY_PATH=./test/approval/fake-asserters/ bun exec run --from-dir ./test/approval/sample",
@@ -20,6 +21,7 @@
     "commander": "^12.1.0",
     "@dragee-io/asserter-type": "https://github.com/MichaelBernasinski/dragee-asserter-model",
     "@dragee-io/report-generator": "https://github.com/MichaelBernasinski/dragee-report-generator",
+    "@dragee-io/asserter-generator": "https://github.com/MichaelBernasinski/dragee-asserter-generator",
     "axios": "^1.7.5",
     "tar": "^7.4.3"
   }
