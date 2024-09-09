@@ -9,7 +9,7 @@ bun install
 To run:
 
 ```bash
-bun run ./src/index.ts
+bun run index.ts
 ```
 
 ### report
@@ -17,13 +17,13 @@ bun run ./src/index.ts
 To generate a new dragee asserter
 
 ```bash
-bun run ./src/index.ts report --from-dir <path-to-dir> --to-dir <path-to-dir>
+bun run index.ts report --from-dir <path-to-dir> --to-dir <path-to-dir>
 ```
 
 Example
 
 ```bash
-bun run ./src/index.ts report --from-dir ./test/approval/sample/
+bun run index.ts report --from-dir ./test/approval/sample/
 ```
 
 ### generate-asserter
@@ -31,13 +31,13 @@ bun run ./src/index.ts report --from-dir ./test/approval/sample/
 To generate a new dragee asserter
 
 ```bash
-bun run ./src/index.ts generate-asserter --name <asserter name> --output-dir <output directory>
+bun run index.ts generate-asserter --name <asserter name> --output-dir <output directory>
 ```
 
 Example
 
 ```bash
-bun run ./src/index.ts generate-asserter --name zzz --output-dir E:\Projets\Dragee.io
+bun run index.ts generate-asserter --name zzz --output-dir E:\Projets\Dragee.io
 ```
 
 This project was created using `bun init` in bun v1.0.22. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.

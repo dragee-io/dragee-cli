@@ -1,12 +1,12 @@
 {
   "name": "dragee-cli",
-  "module": "src/index.ts",
+  "module": "index.ts",
   "type": "module",
 	"version": "0.0.1",
   "scripts": {
-    "exec": "bun run ./src/index.ts",
+    "exec": "bun run index.ts",
     "exec-local": "env DRAGEE_ASSERTER_LOCAL_REGISTRY_PATH=./test/approval/fake-asserters/ bun exec run --from-dir ./test/approval/sample",
-    "build": "bun build ./src/index.ts --target bun --compile --outfile dist/dragee-cli"
+    "build": "bun build index.ts --target bun --compile --outfile dist/dragee-cli"
   },
   "devDependencies": {
     "@types/bun": "latest",
