@@ -12,8 +12,15 @@ describe('Should display correct reporting format', () => {
     
         const reports: Report[] = [{
             errors: [
-                'The aggregate "io.dragee.rules.relation.DrageeOne" must at least contain a "ddd/entity" type dragee',
-                'The aggregate "io.dragee.rules.relation.DrageeTwo" must at least contain a "ddd/entity" type dragee'
+                {
+                    drageeName: 'io.dragee.rules.relation.DrageeOne',
+                    message: 'This aggregate must at least contain a "ddd/entity" type dragee',
+                    ruleId: 'ddd/aggregates-allowed-dependencies'
+                },{
+                    drageeName: 'io.dragee.rules.relation.DrageeTwo',
+                    message: 'This aggregate must at least contain a "ddd/entity" type dragee',
+                    ruleId: 'ddd/aggregates-allowed-dependencies'
+                }
             ],
             namespace: "ddd",
             pass: true,
@@ -23,7 +30,11 @@ describe('Should display correct reporting format', () => {
                 passCount: 5
             }
         },{
-            errors: ["Test error"],
+            errors: [{
+                drageeName: 'DrageeTestError',
+                message: 'Test error',
+                ruleId: 'test-error'
+            }],
             namespace: "test",
             pass: true,
             stats: {
