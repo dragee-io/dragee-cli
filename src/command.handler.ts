@@ -1,7 +1,7 @@
 import { lookupForDragees } from "./dragee-lookup.ts";
 import { lookupForNamespaces } from "./namespace-lookup.ts";
 import { lookupForAsserters } from "./namespace-asserter-lookup.ts";
-import type { Asserter, Report } from "@dragee-io/asserter-type";
+import { type Asserter, type Report, asserterHandler } from "@dragee-io/asserter-type";
 import { JsonReportBuilder, HtmlReportBuilder, MarkdownReportBuilder } from "@dragee-io/report-generator";
 
 type Options = {
@@ -15,9 +15,9 @@ export const handler = async (options: Options) => {
     const asserters: Asserter[] = await lookupForAsserters(namespaces);
     const reports: Report[] = [];
     
-    for (const {namespace, handler} of asserters) {
-        console.log(`Running asserter for namespace ${namespace}`)
-        reports.push(handler(dragees));
+    for (const asserter of asserters) {
+        console.log(`Running asserter for namespace ${asserter.namespace}`)
+        reports.push(asserterHandler(asserter, dragees));
     }
     
     buildReports(reports, options.toDir + '/result');
