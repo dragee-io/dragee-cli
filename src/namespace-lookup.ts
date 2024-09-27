@@ -1,6 +1,6 @@
-import type { Dragee, Namespace } from "@dragee-io/asserter-type";
+import type { Dragee } from "@dragee-io/asserter-type";
 
-export const lookupForNamespaces = async (dragees: Dragee[]): Promise<Namespace[]> => {
+export const lookupForNamespaces = async (dragees: Dragee[]): Promise<string[]> => {
     console.log('Looking up for namespaces');
 
     const nonUniqueNamespaces = dragees.map(dragee => {

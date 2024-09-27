@@ -3,9 +3,9 @@ import {install} from "./install-namespace-asserter.ts";
 import type {Result} from "./fp/result.model.ts";
 import {Glob} from "bun";
 import {config} from './cli.config.ts'
-import type { Asserter, Namespace } from "@dragee-io/asserter-type";
+import type { Asserter } from "@dragee-io/asserter-type";
 
-const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter>> => {
+const findAsserterLocally = async (namespace: string): Promise<Maybe<Asserter>> => {
     let glob = new Glob(`index.ts`);
 
     const scan = glob.scan({
@@ -29,7 +29,7 @@ const findAsserterLocally = async (namespace: Namespace): Promise<Maybe<Asserter
     return some(asserter);
 }
 
-const installFor = async (namespace: Namespace): Promise<Nullable<Asserter>> => {
+const installFor = async (namespace: string): Promise<Nullable<Asserter>> => {
     const result: Result<Asserter> = await install(namespace);
     if (result.status !== 'ok') {
         console.log(`Failed to download asserter for namespace: ${namespace}`);
@@ -39,7 +39,7 @@ const installFor = async (namespace: Namespace): Promise<Nullable<Asserter>> => 
     return result.content;
 }
 
-export const lookupForAsserters = async (namespaces: Namespace[]): Promise<Asserter[]> => {
+export const lookupForAsserters = async (namespaces: string[]): Promise<Asserter[]> => {
     console.log('Looking up for asserters');
 
     const asserters: Asserter[] = [];
