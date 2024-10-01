@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { handler } from "./src/command.handler.ts";
+import { reportCommandhandler } from "./src/commands/report-command.handler.ts";
 import { generateAsserter } from "@dragee-io/asserter-generator";
    
 const report = new Command('report')

@@ -1,5 +1,5 @@
 import { describe, expect, test, spyOn } from "bun:test";
-import { buildReports } from "../src/command.handler";
+import { buildReports } from "../src/commands/report-command.handler";
 import { JsonReportBuilder, HtmlReportBuilder, MarkdownReportBuilder } from "@dragee-io/report-generator";
 import type { Report } from "@dragee-io/asserter-type";
 
