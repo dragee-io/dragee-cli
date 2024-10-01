@@ -1,4 +1,4 @@
-import type { Dragee } from "@dragee-io/asserter-type";
+import type { Dragee } from "@dragee-io/type/common";
 
 export const lookupForNamespaces = async (dragees: Dragee[]): Promise<string[]> => {
     console.log('Looking up for namespaces');

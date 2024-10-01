@@ -1,7 +1,7 @@
 import { lookupForDragees } from "../dragee-lookup.ts";
 import { lookupForNamespaces } from "../namespace-lookup.ts";
 import { lookupForAsserters } from "../namespace-asserter-lookup.ts";
-import { type Asserter, type Report, asserterHandler } from "@dragee-io/asserter-type";
+import { type Asserter, type Report, asserterHandler } from "@dragee-io/type/asserter";
 import { JsonReportBuilder, HtmlReportBuilder, MarkdownReportBuilder } from "@dragee-io/report-generator";
 
 type Options = {

@@ -1,4 +1,4 @@
-import type { Asserter } from "@dragee-io/asserter-type";
+import type { Asserter } from "@dragee-io/type/asserter";
 import type { Result } from "./fp/result.model.ts";
 import { ok } from "./fp/result.model.ts";
 import { config } from './cli.config.ts'

@@ -19,7 +19,7 @@
   "dependencies": {
     "cli-progress": "^3.12.0",
     "commander": "^12.1.0",
-    "@dragee-io/asserter-type": "https://github.com/MichaelBernasinski/dragee-asserter-model",
+    "@dragee-io/type": "https://github.com/MichaelBernasinski/dragee-model",
     "@dragee-io/report-generator": "https://github.com/MichaelBernasinski/dragee-report-generator",
     "@dragee-io/asserter-generator": "https://github.com/MichaelBernasinski/dragee-asserter-generator",
     "axios": "^1.7.5",

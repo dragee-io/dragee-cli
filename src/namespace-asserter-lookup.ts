@@ -3,7 +3,7 @@ import {install} from "./install-namespace-asserter.ts";
 import type {Result} from "./fp/result.model.ts";
 import {Glob} from "bun";
 import {config} from './cli.config.ts'
-import type { Asserter } from "@dragee-io/asserter-type";
+import type { Asserter } from "@dragee-io/type/asserter";
 
 const findAsserterLocally = async (namespace: string): Promise<Maybe<Asserter>> => {
     let glob = new Glob(`index.ts`);
