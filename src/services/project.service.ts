@@ -1,22 +1,21 @@
 import axios from "axios";
 import { config } from './../cli.config.ts'
 
-export async function downloadAsserterAndGetName (namespace: string, assertersDirectory: string) {
-    const asserterArchiveUrl = `${config.projectsRegistryUrl}/${namespace}-asserter/latest`;
+export const downloadProjectAndGetName = async (projectName: string, projectsDirectory: string) => {
+    const projectArchiveUrl = `${config.projectsRegistryUrl}/${projectName}/latest`;
     let fileName;
 
     try{
-
         const {data} =  await axios.get<any>(
-            asserterArchiveUrl,
+            projectArchiveUrl,
             {
                 headers: {
-                Accept: 'application/json',
+                    Accept: 'application/json'
                 },
             },
         );
 
-        fileName =  data.dist.tarball.split('/').pop();
+        fileName = data.dist.tarball.split('/').pop();
         const directoryName = removeVersionAndExtension(fileName);
         let downloadedArchive;
 
@@ -24,17 +23,17 @@ export async function downloadAsserterAndGetName (namespace: string, assertersDi
             responseType: 'arraybuffer'
         })
 
-        await Bun.write(`${assertersDirectory}/${directoryName}/${fileName}`, downloadedArchive.data);
-        console.log(`Asserter ${namespace}-asserter has been downloaded`)
+        await Bun.write(`${projectsDirectory}/${directoryName}/${fileName}`, downloadedArchive.data);
+        console.log(`Project ${projectName} has been downloaded`)
 
     }catch(err){
-        throw Error(`Could not download ${namespace}-asserter at url ${asserterArchiveUrl}: ${err}`)
+        throw Error(`Could not download ${projectName} at url ${projectArchiveUrl}: ${err}`)
     }
 
     return fileName;
 }
 
-export function removeVersionAndExtension (fileName: string){
+export const removeVersionAndExtension = (fileName: string) => {
     const extensionSeparator = ".";
     const versionSeparator = "-";
 
