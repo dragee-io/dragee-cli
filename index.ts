@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 import { reportCommandhandler } from "./src/commands/report-command.handler.ts";
 import { generateAsserter } from "@dragee-io/asserter-generator";
+import { generateGrapher } from "@dragee-io/grapher-generator";
    
 const report = new Command('report')
     .alias('r')
@@ -10,6 +11,7 @@ const report = new Command('report')
 
 new Command()
     .addCommand(generateAsserter)
+    .addCommand(generateGrapher)
     .addCommand(report)
     .showHelpAfterError()
     .showSuggestionAfterError()

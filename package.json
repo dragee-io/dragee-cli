@@ -22,6 +22,7 @@
     "@dragee-io/type": "https://github.com/MichaelBernasinski/dragee-model",
     "@dragee-io/report-generator": "https://github.com/MichaelBernasinski/dragee-report-generator",
     "@dragee-io/asserter-generator": "https://github.com/MichaelBernasinski/dragee-asserter-generator",
+    "@dragee-io/grapher-generator": "https://github.com/MichaelBernasinski/dragee-grapher-generator",
     "axios": "^1.7.5",
     "tar": "^7.4.3"
   }
