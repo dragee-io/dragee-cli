@@ -1,7 +1,8 @@
 import axios from "axios";
+import { config } from './../cli.config.ts'
 
 export async function downloadAsserterAndGetName (namespace: string, assertersDirectory: string) {
-    const asserterArchiveUrl = `https://registry.npmjs.org/@dragee-io/${namespace}-asserter/latest`;
+    const asserterArchiveUrl = `${config.projectsRegistryUrl}/${namespace}-asserter/latest`;
     let fileName;
 
     try{
