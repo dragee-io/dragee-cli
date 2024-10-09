@@ -1,7 +1,6 @@
-import {Glob} from "bun";
-import type {Result} from "./fp/result.model.ts";
-import {ko, ok} from "./fp/result.model.ts";
-import type { Dragee } from "@dragee-io/type/common";
+import type { Dragee } from '@dragee-io/type/common';
+import { Glob } from 'bun';
+import { type Result, ko, ok } from './fp/result.model.ts';
 
 const readJson = async <T>(fileName: string): Promise<Result<T>> => {
     try {
@@ -11,7 +10,7 @@ const readJson = async <T>(fileName: string): Promise<Result<T>> => {
     } catch (error) {
         return ko(error);
     }
-}
+};
 
 const readDragees = async (fromDir: string, glob: Glob) => {
     const scan = glob.scan({
@@ -32,9 +31,9 @@ const readDragees = async (fromDir: string, glob: Glob) => {
     }
 
     return foundDragees;
-}
+};
 
 export const lookupForDragees = async (fromDir: string) => {
     console.log(`Looking up for dragees in directory: ${fromDir}`);
-    return readDragees(fromDir, new Glob("**/*.json"));
-}
+    return readDragees(fromDir, new Glob('**/*.json'));
+};

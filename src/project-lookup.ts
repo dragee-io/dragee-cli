@@ -1,11 +1,11 @@
-import {type Maybe, none, type Nullable, some} from "./fp/maybe.model.ts";
-import {install} from "./install-namespace-project.ts";
-import type {Result} from "./fp/result.model.ts";
-import {Glob} from "bun";
-import {config} from './cli.config.ts'
+import { Glob } from 'bun';
+import { config } from './cli.config.ts';
+import { type Maybe, type Nullable, none, some } from './fp/maybe.model.ts';
+import type { Result } from './fp/result.model.ts';
+import { install } from './install-namespace-project.ts';
 
 const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => {
-    let glob = new Glob(`index.ts`);
+    const glob = new Glob(`index.ts`);
 
     const scan = glob.scan({
         cwd: `${config.localRegistryPath}/${projectName}/`,
@@ -13,9 +13,9 @@ const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => 
         onlyFiles: true
     });
     let result;
-    try{
+    try {
         result = await scan.next();
-    }catch(error){
+    } catch (error) {
         result = undefined;
     }
 
@@ -26,7 +26,7 @@ const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => 
     const fileName = result.value;
     const project = require(fileName).default as NonNullable<T>;
     return some(project);
-}
+};
 
 const installFor = async <T>(projectName: string): Promise<Nullable<T>> => {
     const result: Result<T> = await install(projectName);
@@ -36,17 +36,17 @@ const installFor = async <T>(projectName: string): Promise<Nullable<T>> => {
     }
 
     return result.content;
-}
+};
 
 export const lookupForProjects = async <T>(projectNames: string[]): Promise<T[]> => {
     console.log('Looking up for projects');
 
     const projects: T[] = [];
 
-    for (let projectName of projectNames) {
+    for (const projectName of projectNames) {
         const foundLocally = await findProjectLocally(projectName);
         const project = await foundLocally.orElse(() => installFor(projectName));
-        if(project) projects.push(project as NonNullable<T>);
+        if (project) projects.push(project as NonNullable<T>);
     }
 
     console.log('List of projects matching dragees');
