@@ -26,6 +26,20 @@ Example
 bun run index.ts report --from-dir ./test/approval/sample/
 ```
 
+### draw
+
+To generate a dragee graph, based on graphers
+
+```bash
+bun run index.ts draw --from-dir <path-to-dir> --to-dir <path-to-dir>
+```
+
+Example
+
+```bash
+bun run index.ts draw --from-dir ./test/approval/sample/ --to-dir ./output
+```
+
 ### generate-asserter
 
 To generate a new dragee asserter
