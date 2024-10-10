@@ -5,27 +5,23 @@ import type { Result } from './fp/result.model.ts';
 import { install } from './install-namespace-project.ts';
 
 const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => {
-    const glob = new Glob(`index.ts`);
+    const glob = new Glob('index.ts');
 
     const scan = glob.scan({
         cwd: `${config.localRegistryPath}/${projectName}/`,
         absolute: true,
         onlyFiles: true
     });
-    let result;
     try {
-        result = await scan.next();
-    } catch (error) {
-        result = undefined;
-    }
+        const result = await scan.next();
+        if (result?.value === undefined) return none();
 
-    if (result?.value === undefined) {
+        const fileName = result.value;
+        const project = require(fileName).default as NonNullable<T>;
+        return some(project);
+    } catch (error) {
         return none();
     }
-
-    const fileName = result.value;
-    const project = require(fileName).default as NonNullable<T>;
-    return some(project);
 };
 
 const installFor = async <T>(projectName: string): Promise<Nullable<T>> => {

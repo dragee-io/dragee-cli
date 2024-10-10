@@ -13,13 +13,17 @@ export const drawCommandhandler = async ({ fromDir, toDir }: Options) => {
     const dragees = await lookupForDragees(fromDir);
     const namespaces = await lookupForNamespaces(dragees);
     const graphers: Grapher[] = await lookupForProjects(namespaces.map(n => `${n}-grapher`));
-    graphers.forEach(grapher => grapherHandler(grapher, toDir, dragees));
+
+    for (const grapher of graphers) {
+        console.log(`Running grapher for namespace ${grapher.namespace}`);
+        await grapherHandler(grapher, toDir, dragees);
+    }
 };
 
 const grapherHandler = async (grapher: Grapher, toDir: string, dragees: Dragee[]) => {
-    grapher.graphs.forEach(async graph => {
+    for (const graph of grapher.graphs) {
         const graphFile = graph.handler(dragees);
         if (graphFile)
             await Bun.write(`${toDir}/${grapher.namespace}/${graph.label}.md`, graphFile);
-    });
+    }
 };

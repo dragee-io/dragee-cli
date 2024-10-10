@@ -3,33 +3,29 @@ import { config } from './../cli.config.ts';
 
 export const downloadProjectAndGetName = async (projectName: string, projectsDirectory: string) => {
     const projectArchiveUrl = `${config.projectsRegistryUrl}/${projectName}/latest`;
-    let fileName;
 
     try {
-        const { data } = await axios.get<any>(projectArchiveUrl, {
-            headers: {
-                Accept: 'application/json'
-            }
-        });
+        const tarball = (
+            await axios.get(projectArchiveUrl, {
+                headers: {
+                    Accept: 'application/json'
+                }
+            })
+        ).data.dist.tarball;
 
-        fileName = data.dist.tarball.split('/').pop();
+        const fileName = tarball.split('/').pop();
         const directoryName = removeVersionAndExtension(fileName);
-        let downloadedArchive;
-
-        downloadedArchive = await axios.get<any>(data.dist.tarball, {
+        const { data } = await axios.get(tarball, {
             responseType: 'arraybuffer'
         });
 
-        await Bun.write(
-            `${projectsDirectory}/${directoryName}/${fileName}`,
-            downloadedArchive.data
-        );
+        await Bun.write(`${projectsDirectory}/${directoryName}/${fileName}`, data);
         console.log(`Project ${projectName} has been downloaded`);
+
+        return fileName;
     } catch (err) {
         throw Error(`Could not download ${projectName} at url ${projectArchiveUrl}: ${err}`);
     }
-
-    return fileName;
 };
 
 export const removeVersionAndExtension = (fileName: string) => {

@@ -24,7 +24,7 @@ export const reportCommandhandler = async ({ fromDir, toDir }: Options) => {
         reports.push(asserterHandler(asserter, dragees));
     }
 
-    buildReports(reports, toDir + '/result');
+    buildReports(reports, `${toDir}/result`);
 };
 
 export const buildReports = (reports: Report[], filePath: string) => {
