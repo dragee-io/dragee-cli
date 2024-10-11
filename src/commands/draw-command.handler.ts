@@ -20,7 +20,7 @@ export const drawCommandhandler = async ({ fromDir, toDir }: Options) => {
     }
 };
 
-const grapherHandler = async (grapher: Grapher, toDir: string, dragees: Dragee[]) => {
+export const grapherHandler = async (grapher: Grapher, toDir: string, dragees: Dragee[]) => {
     for (const graph of grapher.graphs) {
         const graphFile = graph.handler(dragees);
         if (graphFile)
