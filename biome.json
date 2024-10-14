@@ -1,29 +1,4 @@
 {
     "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
-    "files": { "ignore": ["test"], "include": ["**/*.ts"] },
-    "formatter": {
-        "enabled": true,
-        "formatWithErrors": false,
-        "indentStyle": "space",
-        "indentWidth": 4,
-        "lineEnding": "lf",
-        "lineWidth": 100,
-        "attributePosition": "auto",
-        "ignore": ["**/bower_components/", "**/node_modules/"]
-    },
-    "organizeImports": { "enabled": true },
-    "linter": { "enabled": true, "rules": { "recommended": true } },
-    "javascript": {
-        "formatter": {
-            "jsxQuoteStyle": "double",
-            "quoteProperties": "asNeeded",
-            "trailingCommas": "none",
-            "semicolons": "always",
-            "arrowParentheses": "asNeeded",
-            "bracketSpacing": true,
-            "bracketSameLine": false,
-            "quoteStyle": "single",
-            "attributePosition": "auto"
-        }
-    }
+    "extends": ["./node_modules/@dragee-io/type/biome.json"]
 }
