@@ -4,10 +4,10 @@ export type OrElse<T> = (defaultValueFn: () => AsyncNullable<T>) => AsyncNullabl
 export type OrElseGet<T> = (defaultValueFn: () => Promise<Maybe<T>>) => Promise<Maybe<T>>;
 
 export type Maybe<T> = {
-    value: T | null,
-    orElse: OrElse<T>,
-    orElseGet: OrElseGet<T>,
-    ifPresent: (callback: (value: T) => void) => void
+    value: T | null;
+    orElse: OrElse<T>;
+    orElseGet: OrElseGet<T>;
+    ifPresent: (callback: (value: T) => void) => void;
 };
 
 export const none = <T>(): Maybe<T> => ({

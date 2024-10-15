@@ -1,0 +1,5 @@
+{
+    "name": "io.dragee.annotation.ddd.sample.ARepository",
+    "profile": "ddd/repository",
+    "depends_on": {}
+}
