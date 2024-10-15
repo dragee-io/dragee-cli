@@ -1,1 +1,5 @@
-{"name":"io.dragee.annotation.ddd.sample.AnAggregate","profile":"ddd/aggregate","depends_on":{}}
+{
+    "name": "io.dragee.annotation.ddd.sample.AnAggregate",
+    "profile": "ddd/aggregate",
+    "depends_on": {}
+}

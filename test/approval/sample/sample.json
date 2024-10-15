@@ -1,22 +1,10 @@
 {
-  "name": "io.dragee.rules.relation.DrageeOne",
-  "profile": "ddd/aggregate",
-  "depends_on": {
-    "io.dragee.rules.relation.DrageeTwo": [
-      "field",
-      "constructor",
-      "method_param"
-    ],
-    "io.dragee.rules.relation.DrageeThree": [
-      "constructor",
-      "method_param"
-    ],
-    "io.dragee.rules.relation.DrageeFour": [
-      "method_return"
-    ],
-    "io.dragee.rules.relation.DrageeFive": [
-      "field",
-      "method_return"
-    ]
-  }
+    "name": "io.dragee.rules.relation.DrageeOne",
+    "profile": "ddd/aggregate",
+    "depends_on": {
+        "io.dragee.rules.relation.DrageeTwo": ["field", "constructor", "method_param"],
+        "io.dragee.rules.relation.DrageeThree": ["constructor", "method_param"],
+        "io.dragee.rules.relation.DrageeFour": ["method_return"],
+        "io.dragee.rules.relation.DrageeFive": ["field", "method_return"]
+    }
 }
