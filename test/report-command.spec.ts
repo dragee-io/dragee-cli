@@ -1,4 +1,5 @@
-import { describe, expect, spyOn, test } from 'bun:test';
+import { afterEach, describe, expect, spyOn, test } from 'bun:test';
+import { unlinkSync } from 'node:fs';
 import {
     HtmlReportBuilder,
     JsonReportBuilder,
@@ -7,9 +8,17 @@ import {
 import type { Report } from '@dragee-io/type/asserter';
 import { buildReports } from '../src/commands/report-command.handler';
 
+const testResultFile = 'test/result';
+
+afterEach(() => {
+    // Delete test files
+    unlinkSync(`${testResultFile}.json`);
+    unlinkSync(`${testResultFile}.html`);
+    unlinkSync(`${testResultFile}.md`);
+});
+
 describe('Should display correct reporting format', () => {
     test('Format with one report', async () => {
-        const testResultFile = 'test/result';
         const jsonReportBuilderMock = spyOn(JsonReportBuilder, 'buildReports');
         const htmlReportBuilderMock = spyOn(HtmlReportBuilder, 'buildReports');
         const markdownReportBuilderMock = spyOn(MarkdownReportBuilder, 'buildReports');
