@@ -28,11 +28,11 @@ export const downloadProjectAndGetName = async (projectName: string, projectsDir
     }
 };
 
-export const removeVersionAndExtension = (fileName: string) => {
+export const removeVersionAndExtension = (projectName: string) => {
     const extensionSeparator = '.';
     const versionSeparator = '-';
 
-    return fileName
+    return projectName
         .split(extensionSeparator)
         .slice(0, -1)
         .join(extensionSeparator)
