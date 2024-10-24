@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { hash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import axios from 'axios';
 import { config } from './../cli.config.ts';
@@ -49,7 +49,7 @@ export const removeVersionAndExtension = (projectName: string) => {
 
 export const generateChecksumFile = (fileName: string, algorithm: string): string => {
     const fileData = readFileSync(fileName);
-    return createHash(algorithm).update(fileData).digest('base64');
+    return hash(algorithm, fileData, 'base64');
 };
 
 export const controlPackageIntegrity = (
