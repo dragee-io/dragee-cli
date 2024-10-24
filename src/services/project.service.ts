@@ -19,14 +19,14 @@ export const downloadProjectAndGetName = async (projectName: string, projectsDir
         const fileName = tarball.split('/').pop();
         const filePath = `${projectsDirectory}/${removeVersionAndExtension(fileName)}/${fileName}`;
 
-        controlPackageIntegrity(downloadData.integrity as string, filePath, projectName);
-
         const { data } = await axios.get(tarball, {
             responseType: 'arraybuffer'
         });
 
         await Bun.write(filePath, data);
         console.log(`Project ${projectName} has been downloaded`);
+
+        controlPackageIntegrity(downloadData.integrity as string, filePath, projectName);
 
         return fileName;
     } catch (err) {
