@@ -39,6 +39,7 @@ export const removeVersionAndExtension = (projectName: string) => {
     const versionSeparator = '-';
 
     return projectName
+        .replace('-latest', '')
         .split(extensionSeparator)
         .slice(0, -1)
         .join(extensionSeparator)

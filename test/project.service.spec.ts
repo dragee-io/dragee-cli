@@ -15,7 +15,7 @@ describe('Should remove version and extension from project name', () => {
     test('with project name', async () => {
         const projectName = 'ddd-asserter-0.0.2-latest.tgz';
         const result = removeVersionAndExtension(projectName);
-        expect(result).toBe('ddd-asserter-0.0.2');
+        expect(result).toBe('ddd-asserter');
     });
 });
 
