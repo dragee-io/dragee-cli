@@ -5,8 +5,20 @@ import type { Result } from './fp/result.model.ts';
 import { install } from './install-namespace-project.ts';
 
 const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => {
-    const glob = new Glob('index.ts');
+    const fileName = await findProjectIndex(projectName);
+    if (!fileName) return none();
+    try {
+        // Import default
+        const project = require(fileName).default as NonNullable<T>;
+        return some(project);
+    } catch (error) {
+        console.log('Local project Error', error);
+        return none();
+    }
+};
 
+const findProjectIndex = async (projectName: string) => {
+    const glob = new Glob('index.ts');
     const scan = glob.scan({
         cwd: `${config.localRegistryPath}/${projectName}/`,
         absolute: true,
@@ -14,13 +26,12 @@ const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => 
     });
     try {
         const result = await scan.next();
-        if (result?.value === undefined) return none();
-
-        const fileName = result.value;
-        const project = require(fileName).default as NonNullable<T>;
-        return some(project);
+        if (result?.value === undefined) return null;
+        console.log(`${projectName} found`);
+        return result.value;
     } catch (error) {
-        return none();
+        console.log(`${projectName} not found`);
+        return null;
     }
 };
 
