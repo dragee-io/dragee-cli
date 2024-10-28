@@ -1,4 +1,4 @@
-import { Glob } from 'bun';
+import { $, Glob } from 'bun';
 import { config } from './cli.config.ts';
 import { type Maybe, type Nullable, none, some } from './fp/maybe.model.ts';
 import type { Result } from './fp/result.model.ts';
@@ -8,6 +8,9 @@ const findProjectLocally = async <T>(projectName: string): Promise<Maybe<T>> => 
     const fileName = await findProjectIndex(projectName);
     if (!fileName) return none();
     try {
+        // Install dependancies with Bun shell
+        await $`cd ${config.localRegistryPath}/${projectName}/; bun install`;
+
         // Import default
         const project = require(fileName).default as NonNullable<T>;
         return some(project);
