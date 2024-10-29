@@ -1,6 +1,7 @@
 import { generateAsserter } from '@dragee-io/asserter-generator';
 import { generateGrapher } from '@dragee-io/grapher-generator';
 import { Command } from 'commander';
+import { clearRegistryHandler } from './src/commands/clear-registry-command.handler.ts';
 import { drawCommandhandler } from './src/commands/draw-command.handler.ts';
 import { reportCommandhandler } from './src/commands/report-command.handler.ts';
 
@@ -40,11 +41,20 @@ const draw = new Command('draw')
     )
     .action(drawCommandhandler);
 
+const clearRegistry = new Command('clear-registry')
+    .alias('cr')
+    .summary('clears local dragee repository')
+    .description(
+        'Clears local dragee repository, erasing all previously downloaded asserters and graphers.'
+    )
+    .action(clearRegistryHandler);
+
 new Command()
     .addCommand(generateAsserter)
     .addCommand(generateGrapher)
     .addCommand(report)
     .addCommand(draw)
+    .addCommand(clearRegistry)
     .showHelpAfterError()
     .showSuggestionAfterError()
     .parse(process.argv);

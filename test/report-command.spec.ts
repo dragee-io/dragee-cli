@@ -6,7 +6,7 @@ import {
     MarkdownReportBuilder
 } from '@dragee-io/report-generator';
 import type { Report } from '@dragee-io/type/asserter';
-import { buildReports } from '../src/commands/report-command.handler';
+import { buildReports } from '../src/commands/report-command.handler.ts';
 
 const testResultFile = 'test/result';
 
