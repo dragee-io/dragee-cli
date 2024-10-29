@@ -1,12 +1,13 @@
+import { lookupForProjects } from '@dragee-io/package-installer';
 import {
     HtmlReportBuilder,
     JsonReportBuilder,
     MarkdownReportBuilder
 } from '@dragee-io/report-generator';
 import { type Asserter, type Report, asserterHandler } from '@dragee-io/type/asserter';
+import { config } from '../cli.config.ts';
 import { lookupForDragees } from '../dragee-lookup.ts';
 import { lookupForNamespaces } from '../namespace-lookup.ts';
-import { lookupForProjects } from '../project-lookup.ts';
 
 type Options = {
     fromDir: string;
@@ -16,7 +17,11 @@ type Options = {
 export const reportCommandhandler = async ({ fromDir, toDir }: Options) => {
     const dragees = await lookupForDragees(fromDir);
     const namespaces = await lookupForNamespaces(dragees);
-    const asserters: Asserter[] = await lookupForProjects(namespaces.map(n => `${n}-asserter`));
+    const asserters: Asserter[] = await lookupForProjects(
+        config.projectsRegistryUrl,
+        config.localRegistryPath,
+        namespaces.map(n => `${n}-asserter`)
+    );
     const reports: Report[] = [];
 
     for (const asserter of asserters) {

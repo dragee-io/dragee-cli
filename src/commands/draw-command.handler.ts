@@ -1,8 +1,9 @@
+import { lookupForProjects } from '@dragee-io/package-installer';
 import type { Dragee } from '@dragee-io/type/common';
 import type { Grapher } from '@dragee-io/type/grapher';
+import { config } from '../cli.config.ts';
 import { lookupForDragees } from '../dragee-lookup';
 import { lookupForNamespaces } from '../namespace-lookup.ts';
-import { lookupForProjects } from '../project-lookup.ts';
 
 type Options = {
     fromDir: string;
@@ -12,7 +13,11 @@ type Options = {
 export const drawCommandhandler = async ({ fromDir, toDir }: Options) => {
     const dragees = await lookupForDragees(fromDir);
     const namespaces = await lookupForNamespaces(dragees);
-    const graphers: Grapher[] = await lookupForProjects(namespaces.map(n => `${n}-grapher`));
+    const graphers: Grapher[] = await lookupForProjects(
+        config.projectsRegistryUrl,
+        config.localRegistryPath,
+        namespaces.map(n => `${n}-grapher`)
+    );
 
     for (const grapher of graphers) {
         console.log(`Running grapher for namespace ${grapher.namespace}`);

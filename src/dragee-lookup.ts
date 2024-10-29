@@ -1,6 +1,6 @@
+import { type Result, ko, ok } from '@dragee-io/package-installer/src/fp/result.model.ts';
 import type { Dragee } from '@dragee-io/type/common';
 import { Glob } from 'bun';
-import { type Result, ko, ok } from './fp/result.model.ts';
 
 const readJson = async <T>(fileName: string): Promise<Result<T>> => {
     try {
