@@ -1,4 +1,5 @@
 {
+    "extends": "@dragee-io/type/tsconfig.bun",
     "compilerOptions": {
         "lib": ["ESNext"],
         "target": "ESNext",
