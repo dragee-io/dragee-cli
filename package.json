@@ -24,7 +24,7 @@
         "@dragee-io/grapher-generator": "https://github.com/dragee-io/dragee-grapher-generator",
         "@dragee-io/package-installer": "https://github.com/dragee-io/dragee-package-installer",
         "@dragee-io/report-generator": "https://github.com/dragee-io/dragee-report-generator",
-        "@dragee-io/type": "https://github.com/dragee-io/dragee-model",
+        "@dragee-io/type": "0.0.1",
         "cli-progress": "^3.12.0",
         "commander": "^12.1.0"
     }
